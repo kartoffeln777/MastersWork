@@ -1,6 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1520007477 "HW5.tex" "HW5.pdf" "HW5" 1520007478
-  "../../../Documents/GradSchool/MECE6374/HW5/HW5-3.png" 1519955721 131659 04bbdeca8eb246eae516a1b36aa01241 ""
+["pdflatex"] 1520230366 "HW5.tex" "HW5.pdf" "HW5" 1520230367
   "/usr/local/texlive/2017/texmf-dist/fonts/map/fontname/texfonts.map" 1480098670 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "/usr/local/texlive/2017/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1480098698 1004 54797486969f23fa377b128694d548df ""
   "/usr/local/texlive/2017/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1480098698 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -32,6 +31,7 @@
   "/usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb" 1480098733 35752 024fb6c41858982481f6968b5fc26508 ""
   "/usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb" 1480098733 32722 d7379af29a190c3f453aba36302ff5a9 ""
   "/usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb" 1480098733 32362 179c33bbf43f19adbb3825bb4e36e57a ""
+  "/usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb" 1480098733 31809 8670ca339bf94e56da1fc21c80635e2a ""
   "/usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb" 1480098733 32762 224316ccc9ad3ca0423a14971cfa7fc1 ""
   "/usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb" 1480098733 32569 5e5ddc8df908dea60932f3c484a54c0d ""
   "/usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb" 1480098733 37944 359e864bd06cde3b1cf57bb20757fb06 ""
@@ -186,9 +186,9 @@
   "/usr/local/texlive/2017/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1495593472 2350277 a699055bee05bf8a40b0504752487295 ""
   "/usr/local/texlive/2017/texmf-var/web2c/pdftex/pdflatex.fmt" 1495593487 4129592 0e6cfee100d68e6d96b92c0258f2ff73 ""
   "/usr/local/texlive/2017/texmf.cnf" 1495593465 577 2b71d4d888f9e5560b2e99985915a9fa ""
-  "HW5.aux" 1520007478 363 a4e2e5aef2fcff9c2d4b37591b38abb1 ""
-  "HW5.tex" 1520007475 12485 7fb122104ec2ae1bcecd148165ebd99d ""
+  "HW5.aux" 1520230367 363 e41300c36023583967592c9c73edb7c9 ""
+  "HW5.tex" 1520230365 15435 844eb345b736ff0ae6d54166d132f04d ""
   (generated)
-  "HW5.log"
   "HW5.aux"
+  "HW5.log"
   "HW5.pdf"

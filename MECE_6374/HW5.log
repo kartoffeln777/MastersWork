@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  2 MAR 2018 10:17
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  5 MAR 2018 00:12
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -804,151 +804,156 @@ Underfull \hbox (badness 10000) in paragraph at lines 150--151
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 159--161
+Underfull \hbox (badness 10000) in paragraph at lines 159--160
 
  []
 
 
-<./../../../Documents/GradSchool/MECE6374/HW5/HW5-3.png, id=22, 607.26875pt x 4
-59.7175pt>
-File: ./../../../Documents/GradSchool/MECE6374/HW5/HW5-3.png Graphic file (type
- png)
- <use ./../../../Documents/GradSchool/MECE6374/HW5/HW5-3.png>
-Package pdftex.def Info: ./../../../Documents/GradSchool/MECE6374/HW5/HW5-3.png
- used on input line 163.
-(pdftex.def)             Requested size: 225.5106pt x 170.71652pt.
+Underfull \hbox (badness 10000) in paragraph at lines 159--160
 
-[3 <./../../../Documents/GradSchool/MECE6374/HW5/HW5-3.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 176--193
+ []
+
+[3]
+Underfull \hbox (badness 10000) in paragraph at lines 220--223
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 176--193
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 176--193
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 194--211
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 194--211
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 194--211
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 212--229
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 212--229
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 212--229
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 230--247
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 230--247
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 230--247
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 249--266
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 249--266
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 249--266
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 267--284
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 267--284
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 267--284
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 285--302
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 285--302
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 285--302
+Underfull \hbox (badness 10000) in paragraph at lines 220--223
 
  []
 
 [4]
-Underfull \hbox (badness 10000) in paragraph at lines 332--333
+Underfull \hbox (badness 10000) in paragraph at lines 250--267
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 332--333
+Underfull \hbox (badness 10000) in paragraph at lines 250--267
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 354--356
+Underfull \hbox (badness 10000) in paragraph at lines 250--267
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 354--356
+Underfull \hbox (badness 10000) in paragraph at lines 268--285
 
  []
 
-[5] [6] (./HW5.aux) ) 
+
+Underfull \hbox (badness 10000) in paragraph at lines 268--285
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 268--285
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 286--303
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 286--303
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 286--303
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 304--321
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 304--321
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 304--321
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 323--340
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 323--340
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 323--340
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 341--358
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 341--358
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 341--358
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 359--376
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 359--376
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 359--376
+
+ []
+
+[5]
+Underfull \hbox (badness 10000) in paragraph at lines 406--407
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 406--407
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 428--430
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 428--430
+
+ []
+
+[6] [7] (./HW5.aux) ) 
 Here is how much of TeX's memory you used:
- 23475 strings out of 492995
- 596018 string characters out of 6132704
- 800912 words of memory out of 5000000
- 26619 multiletter control sequences out of 15000+600000
+ 23468 strings out of 492995
+ 595725 string characters out of 6132704
+ 800910 words of memory out of 5000000
+ 26615 multiletter control sequences out of 15000+600000
  11542 words of font info for 45 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  62i,18n,96p,718b,609s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -961,15 +966,16 @@ s/cm/cmmi7.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/
 cm/cmr10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm
 /cmr12.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/c
 mr17.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr
-7.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10
-.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.
-pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/latxfont/li
-ne10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/symbol
-s/msam10.pfb>
-Output written on HW5.pdf (6 pages, 210091 bytes).
+5.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.p
+fb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pf
+b></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb
+></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/latxfont/line1
+0.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/symbols/m
+sam10.pfb>
+Output written on HW5.pdf (7 pages, 151560 bytes).
 PDF statistics:
- 81 PDF objects out of 1000 (max. 8388607)
- 57 compressed objects within 1 object stream
+ 87 PDF objects out of 1000 (max. 8388607)
+ 63 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 18 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 13 words of extra memory for PDF output out of 10000 (max. 10000000)
 

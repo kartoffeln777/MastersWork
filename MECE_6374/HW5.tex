@@ -138,14 +138,14 @@
     \dot{x}_2 &= x_1^5
   \end{align*}
   \begin{enumerate}[label=(\alph*)]
-    \item Find the three equilibrium points of the system
+    \item Find the equilibrium point of the system
     \item Find the linearized system about these points
     \item What stability information can you obtain for the nonlinear system
       from the linearization in part (b)?
     \item Utilize a Lyapunov function $V(x) = \alpha x_1^6 + \beta x_2^2$. What
         stability information do I get?
     \item Can you strengthen the stability assessment in part (d)?
-  \end{enumerate}
+  \end{enumerate} 
 
   \noindent \textit{Solution} \newline \newline
 
@@ -156,14 +156,88 @@
     \dot{x}_1 &= \cancelto{0}{-x_1^3} - x_2 = 0 \implies x_2=0
   \end{align*}
 
-  This implies that there is only one equilibrium point and it is located at
-  (0,0). This is supported by the phase plane of the system shown below \newline
+  .\newline \newline
 
-  \begin{center}
-    \includegraphics[height=60mm]{HW5-3.png}
-  \end{center}
+  (b) If we define functions $f_1, f_2$, s.t.
+  $\dot{x} =
+  \begin{bmatrix}
+      \dot{x_1} \\
+      \dot{x_2} 
+  \end{bmatrix} =
+  \begin{bmatrix}
+      f_1(x_1, x_2) \\
+      f_2(x_1, x_2) \\
+  \end{bmatrix} $
 
-  (b) 
+  \vspace{5mm} The formula for linearization of $\dot{x}$ is
+  \begin{align*}
+    f_{i, lin}(x_1,x_2) &= \cancelto{0}{f_i(\bar{x}_1, \bar{x}_2)} \hspace{3.0mm} + \hspace{1.0mm}
+    \frac{\partial f_i}{\partial x_1}\bigg|_{(\bar{x}_1, \bar{x}_2)}(x_1-\bar{x}_1) +
+    \frac{\partial f_i}{\partial x_2}\bigg|_{(\bar{x}_1, \bar{x}_2}(x_2-\bar{x}_2) \\
+    f_{i, lin}(x_1,x_2) &=
+    \frac{\partial f_i}{\partial x_1}\bigg|_{(\bar{x}_1, \bar{x}_2)}(x_1-\bar{x}_1) +
+    \frac{\partial f_i}{\partial x_2}\bigg|_{(\bar{x}_1, \bar{x}_2)}(x_2-\bar{x}_2) \\
+  % \end{align*}
+  % \begin{align*}
+    f_{1, lin}(x_1,x_2) &=
+    \hspace{1.4mm} -3x_1^2\bigg|_{(\bar{x}_1, \bar{x}_1)}(x_1-\bar{x}_1) - 1 \bigg|_{(\bar{x}_1, \bar{x}_1)}(x_2-\bar{x}_2) \\
+    f_{2, lin}(x_1,x_2) &= 5x_1^4\bigg|_{(\bar{x}_1, \bar{x}_2)}(x_1-\bar{x}_1) 
+     \end{align*}
+
+  \textbf{\underline{Equilibrium Point: (0,\hspace{0.8mm}0)}}
+
+  \begin{align*}
+    f_{1, lin}(x_1,x_2) &= \dot{x}_{1,lin} = x_2 \\
+    f_{2, lin}(x_1,x_2) &= \dot{x}_{2,lin} =  0 \\
+    \begin{bmatrix}
+      \dot{x}_{1,lin} \\
+      \dot{x}_{2,lin} 
+    \end{bmatrix} &=
+    \begin{bmatrix}
+      0 & 1 \\
+      0 & 0
+    \end{bmatrix}
+    \begin{bmatrix}
+      x_1 \\
+      x_2 
+    \end{bmatrix}
+  \end{align*}
+
+  (c) The eigenvalues of the linearized system in part (b) are
+  $\lambda_{1,2}=0,0$. This gives us no stability information about the system.
+
+  \newpage (d) $V(x)=\alpha x_1^6 + \beta x_2^2$ is globally positive definite and
+  radially unbounded. Now we need to see the properties of $\dot{V}(x)$.
+  \begin{align*}
+    \dot{V}(x) &= 6\alpha x_1^5\dot{x}_1 + 2\beta x_2\dot{x}_2 \\
+    \dot{V}(x) &= 6\alpha x_1^5(-x_1^3 - x_2) + 2\beta x_2(x_1^5) \\
+    \dot{V}(x) &= -6\alpha x_1^8 - 6\alpha x_1^5x_2 + 2\beta x_1^5x_2 \\
+    Let \hspace{1.0mm} \beta &= 3\alpha \hspace{1.0mm} s.t. \hspace{1.0mm} \alpha , \beta >0 \\
+    \dot{V}(x) &= -6\alpha x_1^8 - 6\alpha x_1^5x_2 + 6\alpha x_1^5x_2 \\
+    \dot{V}(x) &= -6\alpha x_1^8 
+  \end{align*}  
+
+  We can see that $\dot{V}(x)$ is globally negative semi-definite. Since we know
+  that V(x) is globally positive definite, we can conclude that \textbf{the
+    system is globally stable}. \newline \newline
+
+  (e) LaSalle's Theorem states that for a stable system, if the set of
+  x s.t. $\dot{V}(x)=0$ consists strictly of $x=0$ for any time,t, the the system is not only
+  stable, but asymptotically stable. \newline
+  In part (d) we established that:
+  \begin{align*}
+    \dot{V}(x) = -6\alpha x_1^8 \\
+    \dot{V}(x) = 0 \implies -6\alpha x_1^8 = 0 \\
+    \implies x_1 =0 \\
+    x_1=0 \hspace{1.0mm} \forall \hspace{1.0mm} t \implies \dot{x}_1=0 \\
+    \dot{x}_1 = -x_1^3 - x_2 = 0 \\
+    \cancelto{0}{-x_1^3} - x_2 = 0 \\
+    \implies x_2 = 0
+  \end{align*}
+
+  This shows that $x_1, x_2=0$ for all t and fulfills LaSalle's theorem.
+  Therefore we can strengthen our claim from part (d) and say that \textbf{the
+    system is globally asymptotically stable}.
 
   \newpage
 
