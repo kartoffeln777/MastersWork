@@ -1,0 +1,404 @@
+% This is a Latex tutorial document
+
+\documentclass{article}
+% \usepackage[letterpaper, landscape, margin=2in]{geometry}
+\usepackage[margin=1.0in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{empheq}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{pgfplots}
+\usepackage{cancel}
+\usepackage{enumitem}
+\graphicspath{ {./../../../Documents/GradSchool/MECE6374/HW5/} }
+\makeatletter
+\def\@seccntformat#1{%
+  \expandafter\ifx\csname c@#1\endcsname\c@section\else
+  \csname the#1\endcsname\quad
+  \fi}
+\makeatother
+\title{MECE 6374: Fun Work \#5}
+\date{\today}
+\author{Eric Eldridge (1561585)}
+\begin{document}
+
+  % \setlength{\abovedisplayshortskip}{3pt}
+  % \setlength{\belowdisplayshortskip}{3pt}
+  % \setlength{\abovedisplayskip}{3pt}
+  % \setlength{\belowdisplayskip}{3pt}
+
+  \maketitle
+
+  \section{Problem 1}
+
+  Consider the following system
+  \begin{align*}
+    \dot{x}_1 &= -x_1 \\
+    \dot{x}_2 &= -2x_2 +x_1x_2^2
+  \end{align*}
+  Use the variable gradient method (VGM) to construct a Lyapunov function for the
+  system and determine the stability of the equilibrium point at the origin.
+  \newline \newline
+
+  \noindent \textit{Solution} \newline \newline
+
+  With VGM, we first assume $\nabla V =
+  \begin{bmatrix}
+    g_1(x) \\
+    g_2(x)
+  \end{bmatrix} =
+  \begin{bmatrix}
+    \alpha_{11}x_1 + \alpha_{12}x_2 \\
+    \alpha_{21}x_1 + \alpha_{22}x_2
+  \end{bmatrix}$ \newline
+  
+  Next step is find $\alpha_{ij}$ using the curl condition \newline
+  \begin{align*}
+    \frac{\partial g_1}{\partial x_2} = \frac{\partial g_2}{\partial x_1} \\
+    \implies \alpha_{12} = \alpha{21}
+  \end{align*}
+
+  Next step is to find $\dot{V}$ and restrict the coefficients $\alpha_{ij}$
+  s.t. $\dot{V}$ is at least negative semi-definite.
+
+  \begin{align*}
+    \dot{V} &= \frac{dV}{dt} = \frac{\partial V}{\partial x_1} \cdot \frac{dx_1}{dt} + \frac{\partial V}{\partial x_2} \cdot \frac{dx_2}{dt} \\
+    \dot{V} &= (\alpha_{11}x_1 + \alpha_{12}x_2)(-x_1) + (\alpha_{12}x_1 + \alpha_{22}x_2)(-2x_2 + x_1x_2^2) \\
+    \dot{V} &= -\alpha_{11}x_1^2 - \alpha_{12}x_1x_2 - 2\alpha_{12}x_1x_2 -2\alpha_{22}x_2^2 + \alpha_{22}x_1x_2^3 \\
+    \dot{V} &= -\alpha_{11}x_1^2 - 2\alpha_{22}x_2^2 - 3\alpha_{12}x_1x_2 + \alpha_{22}x_1x_2^3 \\
+    \dot{V} &= -\alpha_{11}x_1^2 - 2\alpha_{22}x_2^2 + x_1x_2(\alpha_{22}x_2^2 -3\alpha_{12})
+  \end{align*}
+
+  Let $\alpha_{11}=\alpha_{22}=1, \alpha_{12}=\alpha_{21}=0$. Then
+  \begin{align*}
+    \dot{V} = -x_1^2 - 2x_2^2 + x_1x_2^3
+  \end{align*}
+  
+  \noindent We can see that \textbf{$\dot{V}$ is locally negative definite.} \newpage
+  Now that we know the properties of $\dot{V}$, we will construct V(x) so that
+  we can examine what properties the Lyapunov function has.
+
+  \begin{align*}
+    V(x) &= \int_{0}^{x_1} g_1(x)dx_1 + \int_{0}^{x_2} g_2(x)dx_2 \\
+    V(x) &= \int_{0}^{x_1} x_1dx_1 + \int_{0}^{x_2} x_2dx_2 \\
+    V(x) &= \frac{1}{2}x_1^2 + \frac{1}{2}x_2^2
+  \end{align*}
+
+  It's clear that \textbf{V(x) is globally positive definite and radially
+    unbounded.} \newline \newline
+  Combined with what we know about $\dot{V}$(x), we can see that \textbf{the equilibrium
+  point (0,0) is locally, asymptotically stable}
+
+  \newpage
+
+  \section{Problem 2}
+
+  Consider the following two nonlinear systems:
+  \begin{align*}
+    \dot{x}_1 &= -x_1^3 + x_2 \\
+    \dot{x}_2 &= -x_1^3 - x_2^3 \\ \\
+    \dot{x}_1 &= x_2 \\
+    \dot{x}_2 &= -x_1^3
+  \end{align*}
+
+  \begin{enumerate}[label=(\roman*)]
+    \item Can you determine the stability of the equilibrium point at (0, 0)
+      using linearization?
+    \item Can you determine stability of the equilibrium point at (0, 0) using a
+      quadratic type Lyapunov function?
+    \item Can you determine the stability of the equilibrium point at (0, 0)
+      using a Lyapunov function $V(x_1, x_2) = x_1^4 + 2x_2^2$
+  \end{enumerate} 
+
+  \noindent \textit{Solution} \newline \newline
+
+  (i) The first system can be linearized as
+  \begin{align*}
+    \dot{x} =
+    \begin{bmatrix}
+      0 & 1 \\
+      0 & 0
+    \end{bmatrix} x
+  \end{align*}
+  
+  The second system can also be linearized as
+  \begin{align*}
+    \dot{x} =
+    \begin{bmatrix}
+      0 & 1 \\
+      0 & 0
+    \end{bmatrix} x
+  \end{align*}
+
+  Both systems have repeated eignevalues of 0. Therefore, we cannot determine
+  the stability of the equilibrium points using linearization. \newline \newline
+
+  (ii) \underline{System 1:} A quadratic type Lyapunov function takes the form
+  \begin{align*}
+    V(x) = \alpha x_1^2 + \beta x_2^2
+  \end{align*}
+  We can see that this function is gpd and radially unbounded. Now we want to
+  examine the properties of $\dot{V}$.
+
+  \begin{align*}
+    \dot{V}(x) &= 2\alpha x_1\dot{x}_1 + 2\beta x_2\dot{x}_2 \\
+    \dot{V}(x) &= 2\alpha x_1(-x_1^3 + x_2) + 2\beta x_2(-x_1^3 - x_2^3) \\
+    \dot{V}(x) &= -2\alpha x_1^4 + 2\alpha x_1x_2 - 2\beta x_2^4 -2\beta x_1^3x_2 
+  \end{align*}
+
+  \noindent To find the properties of $\dot{V}(x)$, we must look at $\frac{\partial
+    \dot{V}}{\partial x}$ and $\frac{\partial^2 \dot{V}}{\partial x^2}$
+
+  \begin{align*}
+    \frac{\partial \dot{V}}{\partial x} &= \begin{bmatrix}
+      -8\alpha x_1^3 + 2\alpha x_2 - 6\beta x_1^2x_2 \\
+      2\alpha x_1 - 8\beta x_2^3 - 2\beta x_1^3
+    \end{bmatrix} \\
+    \frac{\partial \dot{V}}{\partial x}\rvert_{(0,0)} &= \begin{bmatrix}
+      -8\alpha x_1^3 + 2\alpha x_2 - 6\beta x_1^2x_2 \\
+      2\alpha x_1 - 8\beta x_2^3 - 2\beta x_1^3
+    \end{bmatrix}\rvert_{(0,0)} = \begin{bmatrix}
+      0 \\
+      0
+    \end{bmatrix} \\
+    \frac{\partial^2 \dot{V}}{\partial x^2} &= \begin{bmatrix}
+      -24\alpha x_1^2 - 12\beta x_1x_2 & 2\alpha - 6\beta x_1^2 \\
+      2\alpha - 6\beta x_1^2 & -24\beta x_2^2
+    \end{bmatrix} \\
+    \frac{\partial^2 \dot{V}}{\partial x^2}\rvert_{(0,0)} &= \begin{bmatrix}
+      -24\alpha x_1^2 - 12\beta x_1x_2 & 2\alpha - 6\beta x_1^2 \\
+      2\alpha - 6\beta x_1^2 & -24\beta x_2^2
+    \end{bmatrix}\rvert_{(0,0)} =
+    \begin{bmatrix}
+      0 & 2\alpha \\
+      2\alpha & 0
+    \end{bmatrix}
+  \end{align*}
+
+  We see that $\frac{\partial \dot{V}}{\partial x} \leq 0$ and $\frac{\partial^2
+    \dot{V}}{\partial x^2} \leq 0$. Therefore, we can conclude that $\dot{V}$ is
+  locally negative semi-definite. \newline \newline
+  \indent This implies that \textbf{the first system is locally stable at the
+    equilibrium point (0,0)}. \newline \newline
+  
+  \underline{System 2:} A quadratic type Lyapunov function takes the form
+  \begin{align*}
+    V(x) = \alpha x_1^2 + \beta x_2^2
+  \end{align*}
+  We can see that this function is globally positive definite and radially unbounded. Now we want to
+  examine the properties of $\dot{V}$.
+
+  \begin{align*}
+    \dot{V}(x) &= 2\alpha x_1\dot{x}_1 + 2\beta x_2\dot{x}_2 \\
+    \dot{V}(x) &= 2\alpha x_1(x_2) + 2\beta x_2(-x_1^3) \\
+    \dot{V}(x) &= 2\alpha x_1x_2 - 2\beta x_1^3x_2 
+  \end{align*}
+
+  \noindent To find the properties of $\dot{V}(x)$, we must look at $\frac{\partial
+    \dot{V}}{\partial x}$ and $\frac{\partial^2 \dot{V}}{\partial x^2}$
+
+  \begin{align*}
+    \frac{\partial \dot{V}}{\partial x} &= \begin{bmatrix}
+      2\alpha x_2 - 6\beta x_1^2x_2 \\
+      2\alpha x_1 - 2\beta x_1^3
+    \end{bmatrix} \\
+    \frac{\partial \dot{V}}{\partial x}\rvert_{(0,0)} &= \begin{bmatrix}
+      2\alpha x_2 - 6\beta x_1^2x_2 \\
+      2\alpha x_1 - 2\beta x_1^3
+    \end{bmatrix}\rvert_{(0,0)} = \begin{bmatrix}
+      0 \\
+      0
+    \end{bmatrix} \\
+    \frac{\partial^2 \dot{V}}{\partial x^2} &= \begin{bmatrix}
+      -12\beta x_1x_2 & 2\alpha - 6\beta x_1^2 \\
+      2\alpha - 6\beta x_1^2 & 0
+    \end{bmatrix} \\
+    \frac{\partial^2 \dot{V}}{\partial x^2}\rvert_{(0,0)} &= \begin{bmatrix}
+      -12\beta x_1x_2 & 2\alpha - 6\beta x_1^2 \\
+      2\alpha - 6\beta x_1^2 & 0
+    \end{bmatrix}\rvert_{(0,0)} =
+    \begin{bmatrix}
+      0 & 2\alpha \\
+      2\alpha & 0
+    \end{bmatrix}
+  \end{align*}
+
+  We see that $\frac{\partial \dot{V}}{\partial x} \leq 0$ and $\frac{\partial^2
+    \dot{V}}{\partial x^2} \leq 0$. Therefore, we can conclude that $\dot{V}$ is
+  locally negative semi-definite. \newline \newline
+  \indent This implies that \textbf{the second system is locally stable at the
+    equilibrium point (0,0)}. \newpage
+
+  (iii) If we choose $V(x)=x_1^4 + 2x_2^2$, then we know that the Lyapunov
+  function is both globally negative definite and radially unbounded. Next we want to examine the
+  properties of $\dot{V}(x)$.
+
+  \underline{System 1:}
+
+  \begin{align*}
+    V(x) &= x_1^4 + 2x_2^2 \\
+    \dot{V}(x) &= 4x_1^3\dot{x}_1 + 4x_2\dot{x_2} \\
+    \dot{V}(x) &= 4x_1^3(-x_1^3 + x_2) + 4x_2(-x_1^3 - x_2^3) \\
+    \dot{V}(x) &= -4x_1^6 + \cancelto{0}{4x_1^3x_2} - 4x_2^4 - \cancelto{0}{4x_1^3x_2} \\
+    \dot{V}(x) &= -4x_1^6 - 4x_2^4
+  \end{align*}
+
+  It is clear here that $\dot{V}(x)$ is globally negative definite. Therefore, we know that \textbf{the first
+  system is globally asymptotically stable.} \newline
+  
+  \underline{System 2:}
+
+  \begin{align*}
+    V(x) &= x_1^4 + 2x_2^2 \\
+    \dot{V}(x) &= 4x_1^3\dot{x}_1 + 4x_2\dot{x_2} \\
+    \dot{V}(x) &= 4x_1^3(x_2) + 4x_2(-x_1^3) \\
+    \dot{V}(x) &= 0
+  \end{align*}
+
+  It is clear here that $\dot{V}(x)$ is globally negative semi-definite. Therefore, we know that
+  \textbf{the second system is globally stable.}
+  
+  \newpage 
+
+
+  \section{Problem 3} 
+
+  Consider a structural system
+  \begin{align*}
+    M\ddot{q} + C\dot{q} + Kq = 0
+  \end{align*}
+  Where q $\in \mathbb{R}^n$ is the vector of generalized coordinates and M, C, and
+K are positive definite mass, damping and stiffness matrices respectively. 
+  \begin{enumerate}[label=(\roman*)]
+    \item Write the system in state-space form.
+    \item Use the total energy of the system
+    \begin{align*}
+      V = \frac{1}{2}\dot{q}^TM\dot{q} + \frac{1}{2}q^Tkq
+    \end{align*}
+  \end{enumerate}
+  as a Lyapunov function candidate to examine the stability of the origin
+  (q,$\dot{q}$)=(0,0). \newline \newline
+
+  \noindent \textit{Solution} \newline \newline
+
+  To write the system in state-space form, we will first define the state vector
+  as
+  \begin{align*}
+    x = \begin{bmatrix}
+      x_1 \\
+      x_2
+    \end{bmatrix} =
+    \begin{bmatrix}
+      q \\
+      \dot{q}
+    \end{bmatrix}
+  \end{align*}
+
+  Next, we solve the system for $\ddot{q}$
+
+  \begin{align*}
+    M\ddot{q} &+ C\dot{q} + Kq = 0 \\
+    \ddot{q} &= M^{-1}(-C\dot{q}-Kq) \\
+    \ddot{q} &= M^{-1}(-Cx_2-Kx_1) \\
+  \end{align*}
+
+  We can then write the state space from as
+
+  \begin{align*}
+    \dot{x}_1 &= x_2 \\
+    \dot{x}_2 &= M^{-1}(-Cx_2-Kx_1) \\
+    \dot{x} &=
+    \begin{bmatrix}
+      0_n & I_n \\
+      -M^{-1}K & -M^{-1}C
+    \end{bmatrix} x
+  \end{align*}
+  
+  \newpage
+
+  (ii) 
+
+  If we choose $V = \frac{1}{2}\dot{q}^TM\dot{q} + \frac{1}{2}q^Tkq$ to be the
+  Lyapunov function, we can rewrite the function as $V = \frac{1}{2}x_2^TMx_2 +
+  \frac{1}{2}^x_1Tkx_1$  we can tell that the function V is gpd and radially
+  unbounded. Next we want to examine the properties of $\dot{V}$.
+
+  \begin{align*}
+    V &= \frac{1}{2}\dot{q}^TM\dot{q} + \frac{1}{2}q^Tkq \\
+    \dot{V} &= \frac{1}{2}\ddot{q}^TM\dot{q} + \frac{1}{2}\dot{q}^TM\ddot{q} + \frac{1}{2}\dot{q}^TKq + \frac{1}{2}q^TK\dot{q} \\
+    \dot{V} &= \frac{1}{2}\dot{x_2}^TMx_2 + \frac{1}{2}x_2^TM\dot{x_2} + \frac{1}{2}x_2^TKx_1 + \frac{1}{2}x_1^TKx_2 \\
+    \dot{V} &= \frac{1}{2}(M^{-1}(-Cx_2-Kx_1))^TMx_2 + \frac{1}{2}x_2^TM(M^{-1}(-Cx_2-Kx_1)) + \frac{1}{2}x_2^TKx_1 + \frac{1}{2}x_1^TKx_2 \\
+    \dot{V} &= \frac{1}{2}(-M^{-1}Cx_2 - \cancelto{0}{M^{-1}Kx_1})^TMx_2 + \frac{1}{2}x_2^T(-Cx_2-\cancelto{0}{Kx_1}) + \cancelto{0}{\frac{1}{2}x_2^TKx_1} + \cancelto{0}{\frac{1}{2}x_1^TKx_2} \\
+    \dot{V} &= -\frac{1}{2}x_2^TC^T\cancelto{I}{M^{-1}M}x_2 - \frac{1}{2}x_2^TCx_2 \\
+    \dot{V} &= -x_2^TC^Tx_2
+  \end{align*}
+
+  We can see that $\dot{V}$ is globally negative semi-definite. Therefore, the system is
+  \underline{Globally Stable} at the equilibrium point (0,0). \newline \newline
+
+  To test if we can further define our system as globally asymptotically stable,
+  we turn to LaSalle's Theorem. LaSalle's Theorem states that if a system is
+  locally/globally stable AND the set $\dot{V}(\vec{x})=\vec{0}$ contains no
+  trajectories other than $\vec{x}=\vec{0}$, then we can say that the system is
+  locally/globally asymptotically stable.
+
+  \begin{align*}
+    \dot{V} &= -x_2^TC^Tx_2
+  \end{align*}
+
+  Therefore, if $\dot{V}=0$, then $x_2=0 \hspace{1mm} \forall \hspace{1mm} t
+  \implies \dot{x}_2=0 \hspace{1mm} \forall \hspace{1mm} t$
+
+  \begin{align*}
+    \dot{x}_2 &= M^{-1}(-C\cancelto{0}{x_2}-Kx_1) \\
+    \dot{x}_2 &= -M^{-1}(Kx_1) \\
+    \dot{x}_2 &= -M^{-1}(Kx_1) = 0 \\
+    \implies x_1 &= 0
+  \end{align*}
+
+  Therefore we have shown that $\dot{V}(\vec{x})=\vec{0}$ only when
+  $\vec{x}=\vec{0}$. This satisfies Lasalle's Theorem and we have show that
+  \textbf{our system is Globally Asymptotically Stable at the equilibrium point (0,0)}.
+
+  \newpage
+
+  \section{Problem 4}
+
+  For the system
+  \begin{align*}
+    \dot{x}_1 = -x_1(1-x_1^2-x_2^2) \\
+    \dot{x}_2 = -x_2(1-x_1^2-x_2^2)
+  \end{align*}
+  show that the origin (0,0) is Locally Asymptotically Stable. Estimate a region
+  of attraction. \newline \newline
+
+  \noindent \textit{Solution} \newline \newline
+
+  A quadratic type Lyapunov function takes the form
+  \begin{align*}
+    V(x) = \alpha x_1^2 + \beta x_2^2
+  \end{align*}
+  We can see that this function is globally positive definite and radially unbounded for $\alpha, \beta
+  >0 $. Now we want to examine the properties of $\dot{V}$.
+
+  \begin{align*}
+    \dot{V}(x) &= 2\alpha x_1\dot{x}_1 + 2\beta x_2\dot{x}_2 \\
+    \dot{V}(x) &= 2\alpha x_1(-x_1(1-x_1^2-x_2^2)) + 2\beta x_2(-x_2(1-x_1^2-x_2^2)) \\
+    \dot{V}(x) &= -2\alpha x_1^2 - 2\alpha x_1^4 - 2\alpha x_1^2x_2^2 - 2\beta x_2^2 -2\beta x_1^2x_2^2 - 2\beta x_2^4 \\
+    \dot{V}(x) &= -2[(\alpha x_1^2)(1-x_1^2-x_2^2) + (\beta x_2^2)(1-x_1^2-x_2^2)] \\
+    \dot{V}(x) &= -2(\alpha x_1^2 + \beta x_2^2)(1-x_1^2-x_2^2) 
+  \end{align*}
+ 
+  We can see that for $(1-x_1^2-x_2^2)>0$, that $\dot{V}(x)$ is negative,
+  therefore $\dot{V}(x)$ is locally negative definite. This implies that \textbf{our
+  system is Locally Asymptotically Stable at the equilibrium point (0,0).}
+  \newline \newline
+
+  Because $\dot{V}(x)$ is negative when $(1-x_1^2-x_2^2)>0$, the region of
+  attraction can be estimated to be when $(x_1^2+x_2^2)<1$ which is the area
+  inside of the unit circle in the phase plane. 
+ 
+ 
+\end{document}
+
