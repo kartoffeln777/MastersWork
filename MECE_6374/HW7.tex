@@ -1,0 +1,89 @@
+% This is a Latex tutorial document
+
+\documentclass{article}
+% \usepackage[letterpaper, landscape, margin=2in]{geometry}
+\usepackage[margin=1.0in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{empheq}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{pgfplots}
+\usepackage{cancel}
+\usepackage{enumitem}
+\graphicspath{ {./../../../Documents/GradSchool/MECE6374/HW7/} }
+\makeatletter
+\def\@seccntformat#1{%
+  \expandafter\ifx\csname c@#1\endcsname\c@section\else
+  \csname the#1\endcsname\quad
+  \fi}
+\makeatother
+\title{MECE 6374: Fun Work \#7}
+\date{\today}
+\author{Eric Eldridge (1561585)}
+\begin{document}
+
+  % \setlength{\abovedisplayshortskip}{3pt}
+  % \setlength{\belowdisplayshortskip}{3pt}
+  % \setlength{\abovedisplayskip}{3pt}
+  % \setlength{\belowdisplayskip}{3pt}
+
+  \maketitle
+
+  \section{Problem 1}
+
+  Consider the scalar system described by 
+  \begin{align*}
+    \dot{x} &= -x^3 + \frac{x^3}{2}sin(t)
+  \end{align*}
+  Use a Lyapunov function $V(x)=\frac{1}{2}x^2$ to show global uniform
+  asymptotic stability of the origin (show all details of work). 
+  \newline \newline
+
+  \noindent \textit{Solution} \newline \newline
+
+  To show global uniform asymptotic stability, we must choose V(x,t) s.t.
+  \begin{enumerate}[label=(\roman*)]
+    \item V(x,t) is decrescent
+    \item V(x,t) is gpd and R.U.
+    \item $\dot{V}(x,t)$ is gnd
+  \end{enumerate} 
+
+  A function will be called \textit{decrescent} if $V(0,t)=0$ and $\exists
+  V_1(x)$ gpd s.t. $V(x,t) \leq V_1(x)$. \newline
+  If we choose $V(x,t)=\frac{1}{4}(1+sin^2(t))x^2$ we can see that \newline
+  \begin{align*}
+    V(0,t) &= 0 \\
+    V(x,t) &= \frac{1}{4}(1+sin^2(t))x^2 \leq V_1(x)=\frac{1}{2}x^2 \\
+    \implies V(x,t) \hspace{1mm} & is \hspace{1mm}decrescent
+  \end{align*}
+
+  We can see from observation that $V(x,t)$ is gpd and R.U \newline
+  We now wish to show that $\dot{V}(x,t)$ is gnd
+
+  \begin{align*}
+    V(x,t) &= \frac{1}{4}(1+sin^2(t))x^2 \\
+    \dot{V}(x,t) &= \frac{\partial V}{\partial t} + \frac{\partial V}{\partial x}\frac{dx}{dt} \\
+    \dot{V}(x,t) &= \frac{1}{2}sin(t)cos(t)x^2 + \frac{1}{2}(1+sin^2(t))x(-x^3 + \frac{x^3}{2}sin(t))
+  \end{align*}
+  
+
+  \newpage
+
+  \section{Problem 2}
+
+  Consider the non-autonomous linear system
+  \begin{align*}
+    \dot{x}_1 &= x_2 \\
+    \dot{x}_2 &= -x_2 - (2+sin(t))x_1
+  \end{align*}
+
+  Use $V(x)=x_1^2+x_2^2/(2+sin(t))$ as a Lyapunov function candidate show that
+  the origin is a uniformly stable equilibrium point. \newline \newline
+  
+  \noindent \textit{Solution} \newline \newline
+
+
+ 
+\end{document}
+

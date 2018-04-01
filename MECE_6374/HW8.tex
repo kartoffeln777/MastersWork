@@ -1,0 +1,148 @@
+% This is a Latex tutorial document
+
+\documentclass{article}
+% \usepackage[letterpaper, landscape, margin=2in]{geometry}
+\usepackage[margin=1.0in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{empheq}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{pgfplots}
+\usepackage{cancel}
+\usepackage{enumitem}
+\graphicspath{ {./../../../Documents/GradSchool/MECE6374/HW8/} }
+\makeatletter
+\def\@seccntformat#1{%
+  \expandafter\ifx\csname c@#1\endcsname\c@section\else
+  \csname the#1\endcsname\quad
+  \fi}
+\makeatother
+\title{MECE 6374: Fun Work \#8}
+\date{\today}
+\author{Eric Eldridge (1561585)}
+\begin{document}
+
+  % \setlength{\abovedisplayshortskip}{3pt}
+  % \setlength{\belowdisplayshortskip}{3pt}
+  % \setlength{\abovedisplayskip}{3pt}
+  % \setlength{\belowdisplayskip}{3pt}
+
+  \maketitle
+
+  \section{Problem 1}
+
+  Consider the nonlinear systems 
+  \begin{align*}
+    \dot{x}_1 &= x_1x_2 \\
+    \dot{x}_2 &= x_1^5 + u
+  \end{align*}
+  
+  \begin{enumerate}[label=(\alph*)]
+    \item Using a Lyapunov function $V(x)=\frac{1}{2}(x_1^2+x_2^2)$ to find a
+      control law $u=u(x)$ such that the closed-loop system is globally stable.
+    \item Can you show Global Asymptotic Stability?
+  \end{enumerate}
+  % \newline \newline
+
+  \noindent \textit{Solution} \newline \newline
+
+  a) We can see from inspection that V(x) is globally positive definite and
+  radially unbounded. We now want to check the properties of $\dot{V}(x)$. 
+  \begin{align*}
+    V(x) &= \frac{1}{2}(x_1^2+x_2^2) \\
+    \dot{V}(x) &= x_1\dot{x}_1 + x_2\dot{x}_2 \\
+    \dot{V}(x) &= x_1(x_1x_2) + x_2(x_1^5 + u) \\
+    \dot{V}(x) &= x_1^2x_2 + x_1^5x_2 + x_2u \\
+    \dot{V}(x) &= x_2(x_1^2 + x_1^5 + u)
+  \end{align*}
+
+  To show global stability, we need to choose u such that $\dot{V}$ is at least
+  global negative semi-definite. Let us choose u such that $\dot{V}(x) =
+  -x_2^2$.
+
+  \begin{align*}
+    \dot{V}(x) &= x_2(x_1^2 + x_1^5 + u) \\
+    -x_2^2 &= x_2(x_1^2 + x_1^5 + u) \\
+    -x_2 &= x_1^2 + x_1^5 + u \\
+    u &= -x_2 - x_1^2 - x_1^5 \\
+    \implies \dot{V}(x) &= -x_2^2
+  \end{align*}
+
+  This shows that if we set $u=-x_2-x_1^2-x_1^5$, then the closed-loop system is
+  globally stable. \newpage
+      
+  b)
+  We can attempt to show Global Asymptotic Stability by applying LaSalle's
+  theorem. LaSalle's Theorem states that for a stable system, if the set of
+  x s.t. $\dot{V}(x)=0$ consists strictly of $x=0$ for any time,t, the the system is not only
+  stable, but asymptotically stable. \newline
+
+  \begin{align*}
+    \dot{V}(x) &= -x_2^2 = 0 \\
+    \implies x_2 &= 0 \hspace{1mm} \forall \hspace{1mm} t \\
+    \implies \dot{x}_2 &= 0 \\
+    \cancelto{}{x_1^5} - \cancelto{0}{x_2} - x_1^2 - \cancelto{}{x_1^5} &= 0 \\
+    -x_1^2 &= 0 \\
+    \implies x_1 &= 0
+  \end{align*}
+
+  Therefore the tenants of LaSalle's theorem are met and we have shown
+  \textbf{the system is Globally Asymptotically Stable}. \newpage
+
+  
+  \section{Problem 2}
+
+  Consider the following controlled nonlinear system
+  \begin{align*}
+    \dot{x}_1 &= sin(x_2)cos(x_1) + x_1^3 + u \\
+    \dot{x}_2 &= -x_1x_2cos(x_1)
+  \end{align*}
+
+  Use a Lyapunov function candidate $V(x)=\frac{1}{2}(x_1^2 + x_2^2)$ to design
+  a feedback control law u(x) guaranteeing that the origin of the closed loop
+  system is asymptotically stable. \newline \newline
+
+  \noindent \textit{Solution} \newline \newline
+
+  Solution
+  
+  We can see from inspection that V(x) is globally positive definite and
+  radially unbounded. We now want to check the properties of $\dot{V}(x)$. 
+  \begin{align*}
+    V(x) &= \frac{1}{2}(x_1^2+x_2^2) \\
+    \dot{V}(x) &= x_1\dot{x}_1 + x_2\dot{x}_2 \\
+    \dot{V}(x) &= x_1(sin(x_2)cos(x_1) + x_1^3 + u) + x_2(-x_1x_2cos(x_1)) \\
+    \dot{V}(x) &= x_1[sin(x_2)cos(x_1) + x_1^3 + u - x_2^2cos(x_1)]
+  \end{align*}
+
+  To show global stability, we need to choose u such that $\dot{V}$ is at least
+  global negative semi-definite. Let us choose u such that $\dot{V}(x) =
+  -x_2^2$.
+
+  \begin{align*}
+    \dot{V}(x) &= x_1[sin(x_2)cos(x_1) + x_1^3 + u - x_2^2cos(x_1)] \\
+    -x_1^2 &= x_1[sin(x_2)cos(x_1) + x_1^3 + u - x_2^2cos(x_1)] \\
+    -x_1 &= sin(x_2)cos(x_1) + x_1^3 + u - x_2^2cos(x_1) \\
+    u &= -x_1 - sin(x_2)cos(x_1) - x_1^3 + x_2^2cos(x_1)
+  \end{align*}
+
+  This shows that if we set $u=-x_1 - sin(x_2)cos(x_1) - x_1^3 + x_2^2cos(x_1)$, then the closed-loop system is
+  globally stable. 
+   
+  We can attempt to show Global Asymptotic Stability by applying LaSalle's theorem.
+ 
+  \begin{align*}
+    \dot{V}(x) &= -x_1^2 = 0 \\
+    \implies x_1 &= 0 \hspace{1mm} \forall \hspace{1mm} t \\
+    \implies \dot{x}_1 &= 0 \\
+    \cancelto{}{sin(x_2)cos(x_1)} + \cancelto{}{x_1^3} - \cancelto{0}{x_1} - \cancelto{}{sin(x_2)cos(x_1)} - \cancelto{}{x_1^3} + x_2^2\cancelto{1}{cos(x_1)} &= 0 \\
+    x_2^2 &= 0 \\
+    \implies x_2 &= 0
+  \end{align*}
+
+  Therefore the tenants of LaSalle's theorem are met and we have shown
+  \textbf{the system is Globally Asymptotically Stable}. 
+
+\end{document}
+
