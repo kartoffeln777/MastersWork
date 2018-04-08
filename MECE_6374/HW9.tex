@@ -1,0 +1,314 @@
+% This is a Latex tutorial document
+
+\documentclass{article}
+% \usepackage[letterpaper, landscape, margin=2in]{geometry}
+\usepackage[margin=1.0in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{empheq}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{pgfplots}
+\usepackage{cancel}
+\usepackage{enumitem}
+\graphicspath{ {./../../../Documents/GradSchool/MECE6374/HW9/} }
+\makeatletter
+\def\@seccntformat#1{%
+  \expandafter\ifx\csname c@#1\endcsname\c@section\else
+  \csname the#1\endcsname\quad
+  \fi}
+\makeatother
+\title{MECE 6374: Fun Work \#9}
+\date{\today}
+\author{Eric Eldridge (1561585)}
+\begin{document}
+
+  % \setlength{\abovedisplayshortskip}{3pt}
+  % \setlength{\belowdisplayshortskip}{3pt}
+  % \setlength{\abovedisplayskip}{3pt}
+  % \setlength{\belowdisplayskip}{3pt}
+
+  \maketitle
+
+  \section{Problem 1}
+
+  For the nonlinear system
+  \begin{align*}
+    \dot{x}_1 &= -x_1 + x_2 \\
+    \dot{x}_2 &= -sin(x_1) +x_1^3 + u
+  \end{align*}
+  find a feedback control law
+  \begin{align*}
+    u=u(x_1,x_2)
+  \end{align*}
+  that results in a feedback linearized system. Design the control law such that
+  the closed-loop system is equivalent to a linear system with closed-loop poles
+  at -1 and -2.
+  \newline \newline
+
+  \noindent \textit{Solution} \newline \newline
+
+  We can see that $\dot{x}_1$ is already linearized and we only need to
+  linearize $\dot{x}_2$ which has our control u in it. \newline
+  If we choose
+  \begin{align*}
+    \nonumber u = sin(x_1) - x_1^3 + v
+  \end{align*}
+  where we will choose $v=Kx$ later when placing our eigenvalues. \newline
+  Our system can now be represented as
+  \begin{align*}
+    \dot{x} = \begin{bmatrix}
+      -1 & 1 \\
+      0 & 0
+    \end{bmatrix}x +
+          \begin{bmatrix}
+            0 \\
+            1
+          \end{bmatrix}v
+  \end{align*}
+  The simplest choice to achieve our desired eigenvalues is $v=-2x_2$. This
+  gives the new state space representation of the system as
+  \begin{align*}
+    \dot{x} = \begin{bmatrix}
+      -1 & 1 \\
+      0 & -2
+    \end{bmatrix}x 
+  \end{align*}
+
+  \boldmath
+  \begin{empheq}[box=\fbox]{align}
+    \nonumber u = sin(x_1) - x_1^3 - 2x_2
+  \end{empheq}
+  \unboldmath
+    
+  \newpage
+
+  \section{Problem 2}
+
+  Consider the system:
+  \begin{align*}
+    \dot{x}_1 &= sin(x_2) \\
+    \dot{x}_2 &= cos(x_3) \\
+    \dot{x}_3 &= u
+  \end{align*}
+
+  \begin{enumerate}[label=(\alph*)]
+    \item Show that the following state transformation is a feedback linearizing
+      transformation for the system
+      \begin{align*}
+        z_1 &= x_1 \\
+        z_2 &= sin(x_2) \\
+        z_3 &= cos(x_2)cos(x_3)
+      \end{align*}
+    \item Design a state feedback control law so that the closed loop poles of
+      the equivalent linearized system are -1, -2 and -3. 
+  \end{enumerate}
+
+  \noindent \textit{Solution} \newline \newline
+
+  (a) Taking the derivative of the state transformation gives the following set
+  of equations
+  
+  \begin{align*}
+    \dot{z}_1 &= \dot{x}_1 \\
+    \dot{z}_2 &= \dot{x}_2cos(x_2) = cos(x_2)cos(x_3) \\
+    \dot{z}_3 &= -sin(x_2)cos(x_3)\dot{x_2} - cos(x_2)sin(x_3)\dot{x_3} \\
+    \dot{z}_3 &= -sin(x_2)cos^2(x_3) + cos(x_2)sin(x_3)u
+  \end{align*}
+  Next we want to describe the RHS of the equations in terms of $z_1, z_2, z_3$.
+  \begin{align*}
+    x_1 &= z_1 \\
+    x_2 &= sin^{-1}(z_2) \\
+    x_3 &= cos^{-1}(\frac{z_3}{cos(sin^{-1}(z_2))})
+  \end{align*}
+  
+  \begin{align*}
+    \dot{z}_1 &= z_1 \\
+    \dot{z}_2 &= z_3 \\
+    \dot{z}_3 &= -z_2cos^2(x_3) + cos(x_2)sin(x_3)u
+  \end{align*}
+  We have now linearized the system for every state variable except the one
+  containing our control effort, u. We can now choose u s.t. $\dot{z}_3$ is
+  linearized.
+  \begin{align*}
+    u = \frac{z_2cos^2(x_3)}{cos(x_2)sin(x_3)} + v
+  \end{align*}
+  where we will choose $v=Kx$ later when placing our eigenvalues. \newline
+  Our system can now be represented as
+  \begin{align*}
+    \dot{z} = \begin{bmatrix}
+      1 & 0 & 0 \\
+      0 & 0 & 1 \\
+      0 & 0 & 0 
+    \end{bmatrix}z +
+          \begin{bmatrix}
+            0 \\
+            0 \\
+            1
+          \end{bmatrix}v
+  \end{align*}
+ 
+
+  
+  \newpage
+
+  \section{Problem 3}
+
+  Consider the system:
+  \begin{align*}
+    \dot{x}_1 &= e^{x_2} - 1 \\
+    \dot{x}_2 &= ax_1^2 + u
+  \end{align*}
+  
+  \begin{enumerate}[label=(\arabic*)]
+    \item Is the system feedback linearizable?
+    \item Find a nonlinear state transformation that results in a feedback
+      linearization of this system
+    \item Find the feedback control law that places the closed loop poles of the
+      feedback linearized system at -1 and -2.
+  \end{enumerate}
+
+  \textit{Solution} \newline \newline
+  
+  (1) The NL system is feedback $\dot{x}=f(x)+g(x)u$ linearizable iff
+  \begin{enumerate}[label=(\alph*)]
+    \item The set
+      \begin{align*}
+        \{g, ad_fg, ad_f^2g, \cdots, ad_f^{n-1}g\}
+      \end{align*}
+      is linearly independent
+    \item The set
+      \begin{align*}
+        \{g, ad_fg, ad_f^2g, \cdots, ad_f^{n-2}g\}
+      \end{align*}
+      is involutive.
+  \end{enumerate}
+
+  We can see that $f(x)=\begin{bmatrix}
+                          e^{x_2}-1 \\
+                          ax_1^2
+                        \end{bmatrix}$ and $g(x)=\begin{bmatrix}
+                                                    0 \\
+                                                    1
+                                                  \end{bmatrix}$
+                                                  
+  \begin{align*}
+    ad_fg &= \cancelto{0}{\nabla g} \cdot f - \nabla f \cdot g \\
+    ad_fg &= -\begin{bmatrix}
+                0 & e^{x_2} \\
+                2ax_1 & 0
+              \end{bmatrix} \cdot
+              \begin{bmatrix}
+                0 \\
+                1
+              \end{bmatrix} \\
+    ad_fg &= \begin{bmatrix}
+                e^{x_2} \\
+                0
+              \end{bmatrix}
+  \end{align*}
+  Now we check the rank of $\begin{bmatrix}
+    g & ad_fg
+  \end{bmatrix} =
+  \begin{bmatrix}
+    0 & e^{x_2} \\
+    1 & 0
+  \end{bmatrix}$
+
+  \noindent From observation we can see that rank=2 and our first criteria is satisfied.
+  \newline \newline
+
+  \noindent For the second criteria, we know that \underline{for a constant vector, g(x),
+  involutivity is satisfied.} \newline \newline
+
+  \noindent Therefore, since both criteria are satisfied, we have shown that \textbf{this
+    system is feedback linearizable}. \newpage
+
+  (2) Now that we've shown the system is feedback linearizable, we now seek to
+  find the transformation $z=z(x)$.
+  
+  \begin{align*}
+    \nabla z_1 \cdot g &= 0 \implies
+    \begin{bmatrix}
+       \frac{\partial z_1}{\partial x_1} & \frac{\partial z_1}{\partial x_2}                                           
+    \end{bmatrix}
+    \begin{bmatrix}
+      0 \\
+      1
+    \end{bmatrix} = 0 \\
+    \implies \frac{\partial z_1}{\partial x_2} &= 0 \\
+    \nabla z_1 \cdot ad_fg &\neq 0 \implies
+    \begin{bmatrix}
+       \frac{\partial z_1}{\partial x_1} & \frac{\partial z_1}{\partial x_2}                                           
+    \end{bmatrix}
+    \begin{bmatrix}
+      e^{x_2} \\
+      0
+    \end{bmatrix} \neq 0 \\
+    \frac{\partial z_1}{\partial x_1} &\neq 0 \\
+    Choose \hspace{1mm} z_1 &= x_1 \\
+    z_2 &= L_fz_1 = \nabla z_1 \cdot f \\
+    z_2 &= \begin{bmatrix}
+             1 & 0
+           \end{bmatrix} \cdot
+           \begin{bmatrix}
+             e^{x_2}-1 \\
+             ax_1^2
+           \end{bmatrix} \\
+    z_2 &= e^{x_2} - 1
+  \end{align*}
+  This gives us the transformation
+  \begin{align*}
+    z_1 &= x_1 \\
+    z_2 &= e^{x_2} - 1 \\
+    \dot{z}_1 &= \dot{x}_1 = e^{x_2} - 1 = z_2 \\
+    \dot{z}_2 &= e^{x_2}\dot{x}_2 = e^{x_2}(ax_1^2+u) \\
+    \dot{z}_2 &= (1+z_2) (az_1^2+u) 
+  \end{align*}
+
+  We have now linearized the system for every state variable except the one
+  containing our control effort, u. We can now choose u s.t. $\dot{z}_2 = v$ is
+  linearized.
+
+  \begin{align*}
+    v &= (1+z_2) (az_1^2+u) \\
+    u &= \frac{v}{1+z_2} - az_1^2
+  \end{align*}
+ 
+  \begin{align*}
+    \dot{z} = \begin{bmatrix}
+      0 & 1 \\
+      0 & 0
+    \end{bmatrix}z +
+          \begin{bmatrix}
+            0 \\
+            1
+          \end{bmatrix}v
+  \end{align*}
+  The simplest choice to achieve our desired eigenvalues is $v=Kx$. This
+  gives the new state space representation of the system as
+  \begin{align*}
+    \dot{z} = \begin{bmatrix}
+      0 & 1 \\
+      k_1 & k_2
+    \end{bmatrix}z
+  \end{align*}
+  To set our eigenvalues at -1,-2, we want the characteristic equation to
+  \begin{align*}
+    (\lambda + 1)(\lambda + 2) &= \lambda^2 + 3\lambda + 2 = 0
+  \end{align*}
+  The characteristic equation of our system is
+  \begin{align*}
+    det(A-\lambda I) &= 0 \\
+    (\lambda)(lambda-k_2) - k_1 &=0 \\
+    \lambda^2 - k_2\lambda -k_1 &= 0 = \lambda^2 + 3\lambda + 2 \\
+    \implies k_2 = -3, k_1 = -2
+  \end{align*}
+  
+
+  
+
+  
+  
+\end{document}
+
