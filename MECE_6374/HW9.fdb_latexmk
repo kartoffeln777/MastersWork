@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1523219446 "HW9.tex" "HW9.pdf" "HW9" 1523225102
+["pdflatex"] 1523412266 "HW9.tex" "HW9.pdf" "HW9" 1523412267
   "/usr/local/texlive/2017/texmf-dist/fonts/map/fontname/texfonts.map" 1480098670 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "/usr/local/texlive/2017/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy5.tfm" 1480098698 1120 1e8878807317373affa7f7bba4cf2f6a ""
   "/usr/local/texlive/2017/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy7.tfm" 1480098698 1120 7f9f170e8aa57527ad6c49feafd45d54 ""
@@ -197,8 +197,8 @@
   "/usr/local/texlive/2017/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1495593472 2350277 a699055bee05bf8a40b0504752487295 ""
   "/usr/local/texlive/2017/texmf-var/web2c/pdftex/pdflatex.fmt" 1495593487 4129592 0e6cfee100d68e6d96b92c0258f2ff73 ""
   "/usr/local/texlive/2017/texmf.cnf" 1495593465 577 2b71d4d888f9e5560b2e99985915a9fa ""
-  "HW9.aux" 1523219447 221 c0f4560f462ad0987ba25fe441470ab5 ""
-  "HW9.tex" 1523219445 8902 92487f91297a78cd970cfe45c7614d8c ""
+  "HW9.aux" 1523412267 221 e08b3cbeb0a70e406fe0cd10d75a7be5 ""
+  "HW9.tex" 1523412265 10365 9798aa70c1aebd7dc386650afbcb2797 ""
   (generated)
   "HW9.aux"
   "HW9.pdf"

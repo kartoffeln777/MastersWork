@@ -110,7 +110,7 @@
   of equations
   
   \begin{align*}
-    \dot{z}_1 &= \dot{x}_1 \\
+    \dot{z}_1 &= \dot{x}_1 = sin(x_2) \\
     \dot{z}_2 &= \dot{x}_2cos(x_2) = cos(x_2)cos(x_3) \\
     \dot{z}_3 &= -sin(x_2)cos(x_3)\dot{x_2} - cos(x_2)sin(x_3)\dot{x_3} \\
     \dot{z}_3 &= -sin(x_2)cos^2(x_3) + cos(x_2)sin(x_3)u
@@ -119,25 +119,30 @@
   \begin{align*}
     x_1 &= z_1 \\
     x_2 &= sin^{-1}(z_2) \\
-    x_3 &= cos^{-1}(\frac{z_3}{cos(sin^{-1}(z_2))})
+    x_3 &= cos^{-1}(\frac{z_3}{cos(sin^{-1}(z_2))}) \\
+    x_3 &= cos^{-1}(\frac{z_3}{\sqrt{1-z_2^2})})
   \end{align*}
   
   \begin{align*}
-    \dot{z}_1 &= z_1 \\
+    \dot{z}_1 &= z_2 \\
     \dot{z}_2 &= z_3 \\
-    \dot{z}_3 &= -z_2cos^2(x_3) + cos(x_2)sin(x_3)u
+    \dot{z}_3 &= -z_2cos^2(x_3) + cos(x_2)sin(x_3)u \\
+    \dot{z}_3 &= -\frac{z_2z_3^2}{1-z_2^2} + \cancelto{}{\sqrt{1-z_2^2}}\cdot \frac{\sqrt{1-z_2^2-z_3^2}}{\cancelto{}{\sqrt{1-z_2^2}}}u \\
+    \dot{z}_3 &= -\frac{z_2z_3^2}{1-z_2^2} + \sqrt{1-z_2^2-z_3^2}u
   \end{align*}
   We have now linearized the system for every state variable except the one
-  containing our control effort, u. We can now choose u s.t. $\dot{z}_3$ is
-  linearized.
+  containing our control effort, u. We can now choose u s.t. $\dot{z}_3 = v$ 
+
   \begin{align*}
-    u = \frac{z_2cos^2(x_3)}{cos(x_2)sin(x_3)} + v
+    \dot{z}_3 &= -\frac{z_2z_3^2}{1-z_2^2} + \sqrt{1-z_2^2-z_3^2}u = v \\
+    u &= \frac{v + \frac{z_2z_3^2}{1-z_2^2}}{\sqrt{1-z_2^2-z_3^2}} 
+    u = \frac{sin(x_2)cos^2(x_3)}{cos(x_2)sin(x_3)} + v
   \end{align*}
-  where we will choose $v=Kx$ later when placing our eigenvalues. \newline
+  where we will choose $v=Kz$ later when placing our eigenvalues. \newline
   Our system can now be represented as
   \begin{align*}
     \dot{z} = \begin{bmatrix}
-      1 & 0 & 0 \\
+      0 & 1 & 0 \\
       0 & 0 & 1 \\
       0 & 0 & 0 
     \end{bmatrix}z +
@@ -147,8 +152,26 @@
             1
           \end{bmatrix}v
   \end{align*}
- 
 
+  We now seek to choose our K (from $v=Kz$) s.t. we have poles at -1, -2, -3.
+  Using the place function in Matlab, we find
+  \begin{align*}
+    K = \begin{bmatrix}
+          -6 & -11 & -6
+        \end{bmatrix}
+  \end{align*}
+
+  We can now use this information to solve for u
+
+  \begin{align*}
+    u &= \frac{sin(x_2)cos^2(x_3)}{cos(x_2)sin(x_3)} + v \\
+    u &= \frac{sin(x_2)cos^2(x_3)}{cos(x_2)sin(x_3)} - 6z_1 -11z_2 -6z_3 \\
+  \end{align*}
+   
+  \begin{empheq}[box=\fbox]{align}
+    \nonumber u &= tan(x_2)\frac{cos^2(x_3)}{sin(x_3)} - 6x_1 -11sin(x_2) -6cos((x_2)cos(x_3)) 
+  \end{empheq}
+ 
   
   \newpage
 
@@ -170,7 +193,7 @@
 
   \textit{Solution} \newline \newline
   
-  (1) The NL system is feedback $\dot{x}=f(x)+g(x)u$ linearizable iff
+  \noindent (1) The NL system $\dot{x}=f(x)+g(x)u$ is feedback linearizable iff
   \begin{enumerate}[label=(\alph*)]
     \item The set
       \begin{align*}
@@ -207,13 +230,13 @@
                 0
               \end{bmatrix}
   \end{align*}
-  Now we check the rank of $\begin{bmatrix}
+  Now we check the rank of $\begin{bmatrix} 
     g & ad_fg
   \end{bmatrix} =
   \begin{bmatrix}
     0 & e^{x_2} \\
     1 & 0
-  \end{bmatrix}$
+  \end{bmatrix}$ to verify linear independence. \newline
 
   \noindent From observation we can see that rank=2 and our first criteria is satisfied.
   \newline \newline
@@ -224,7 +247,7 @@
   \noindent Therefore, since both criteria are satisfied, we have shown that \textbf{this
     system is feedback linearizable}. \newpage
 
-  (2) Now that we've shown the system is feedback linearizable, we now seek to
+  (2) Now that we've shown the system is feedback linearizable, we seek to
   find the transformation $z=z(x)$.
   
   \begin{align*}
@@ -293,21 +316,31 @@
       k_1 & k_2
     \end{bmatrix}z
   \end{align*}
-  To set our eigenvalues at -1,-2, we want the characteristic equation to
+  (3) To set our eigenvalues at -1,-2, we want the characteristic equation to
   \begin{align*}
     (\lambda + 1)(\lambda + 2) &= \lambda^2 + 3\lambda + 2 = 0
   \end{align*}
   The characteristic equation of our system is
   \begin{align*}
     det(A-\lambda I) &= 0 \\
-    (\lambda)(lambda-k_2) - k_1 &=0 \\
+    (\lambda)(\lambda-k_2) - k_1 &=0 \\
     \lambda^2 - k_2\lambda -k_1 &= 0 = \lambda^2 + 3\lambda + 2 \\
-    \implies k_2 = -3, k_1 = -2
+    \implies k_1 = -2, k_2 = -3
   \end{align*}
-  
 
-  
+  Therefore, we have found $z=-2z_1-3z_2$. We can plug this in to find our u that
+  will provide feedback linearization.
 
+  \begin{align*}
+    u &= \frac{v}{1+z_2} - az_1^2 \\
+    u &= \frac{-2z_1 - 3z_2}{1+z_2} - az_1^2 \\
+    u &= \frac{-2x_1 - 3(e^{x_2}-1)}{e^{x_2}} - ax_1^2
+  \end{align*}
+   
+  \begin{empheq}[box=\fbox]{align}
+    \nonumber u &= \frac{-2x_1 - 3e^{x_2} + 3}{e^{x_2}} - ax_1^2
+  \end{empheq}
+ 
   
   
 \end{document}
