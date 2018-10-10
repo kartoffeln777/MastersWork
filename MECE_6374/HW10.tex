@@ -1,0 +1,97 @@
+% This is a Latex tutorial document
+
+\documentclass{article}
+% \usepackage[letterpaper, landscape, margin=2in]{geometry}
+\usepackage[margin=1.0in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{empheq}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{pgfplots}
+\usepackage{cancel}
+\usepackage{enumitem}
+\graphicspath{ {./../../../Documents/GradSchool/MECE6374/HW9/} }
+\makeatletter
+\def\@seccntformat#1{%
+  \expandafter\ifx\csname c@#1\endcsname\c@section\else
+  \csname the#1\endcsname\quad
+  \fi}
+\makeatother
+\title{MECE 6374: Fun Work \#10}
+\date{\today}
+\author{Eric Eldridge (1561585)}
+\begin{document}
+
+  \maketitle
+
+  \section{Problem 1}
+
+  Consider the following state-space model of an inverted pendulum 
+  \begin{align*}
+    \dot{x}_1 &= x_2 \\
+    \dot{x}_2 &= -\frac{g}{l}sin(x_1 + \frac{\pi}{2}) + \frac{1}{ml^2}u
+  \end{align*}
+  where $l = 1 m$, $m = 0.1 kg$. The objective is to implement a sliding mode
+  control that stabilizes the pendulum at the upright position. 
+  \begin{enumerate}[label=(\roman*)]
+    \item Show that the stability surface $\sigma (x) = x_1 + x_2$ is a good selection.
+    \item Simulate the sliding mode control
+      \begin{align*}
+        u(x) = -4sgn(x_1 + x_2)
+      \end{align*}
+    for initial conditions $x_1=1$, $x_2=0$. Plot the states $x_1(t)$ and $x_2(t)$
+    as well as the control input u(t).
+    \item To eliminate chattering, modify the control law to
+      \begin{align*}
+        u(x) = -4sat(\frac{\sigma (x)}{\epsilon})
+      \end{align*}
+    where $\epsilon$ is a small positive scalar. Repeat the closed-loop
+    simulations of $x_1(t)$, $x_2(t)$, and $u(t)$.
+  \end{enumerate}
+
+  \textbf{\underline{Note:}} sat($\frac{\sigma (x)}{\epsilon}$) is the
+  saturation function defined as:
+
+  \[
+    \begin{cases} 
+      sgn(\sigma (x) & |\sigma (x)| \geq \epsilon \\
+      \frac{\sigma (x)}{\epsilon} & |\sigma (x)| \leq \epsilon
+    \end{cases}
+  \]
+
+  \newpage
+
+  \textit{Solution} \newline \newline
+
+  (i) To show that the stability surface $\sigma (x) = x_1 + x_2$ is a good
+  selection we need to show that the surface $\sigma (x) = 0$ is stable.
+  \begin{align*}
+    x_1 &+ x_2 = 0 \\
+    x_2 &= -x_1 \\
+    \dot{x_2} &= -\dot{x_1} = -x_2 \\
+    \implies x_2(t) &= x_2(0)e^{-t} \\
+    \implies x_1(t) &= -x_2(0)e^{-t}
+  \end{align*}
+  This shows that our stability surface is a good selection. \newline \newline
+
+  (ii) We want to simulate the sliding mode control $u(x) = -4sgn(x_1 + x_2)$
+  for our system:
+  
+  \begin{align*}
+    \dot{x}_1 &= x_2 \\
+    \dot{x}_2 &= -\frac{g}{l}sin(x_1 + \frac{\pi}{2}) + \frac{1}{ml^2}u
+  \end{align*}
+
+  This can be rewritten as
+
+  \begin{align*}
+    \dot{x}_1 &= x_2 \\
+    \dot{x}_2 &= -\frac{g}{l}sin(x_1 + \frac{\pi}{2}) + \frac{1}{ml^2}(-4sgn(x_1 + x_2)) \\
+    \dot{x}_2 &= -\frac{g}{l}cos(x_1) + \frac{1}{ml^2}(-4sgn(x_1 + x_2))
+  \end{align*}
+   
+   
+  
+\end{document}
+
