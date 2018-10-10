@@ -1,0 +1,995 @@
+% This is a Latex tutorial document
+
+\documentclass{article}
+% \usepackage[letterpaper, landscape, margin=2in]{geometry}
+\usepackage[margin=1.0in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{empheq}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{pgfplots}
+\usepackage{cancel}
+\usepackage{enumitem}
+\graphicspath{ {/Users/ericeldridge/Documents/GradSchool/Fall2018/OptimalControlTheory/HW3/} }
+\makeatletter
+\def\@seccntformat#1{%
+  \expandafter\ifx\csname c@#1\endcsname\c@section\else
+  \csname the#1\endcsname\quad
+  \fi}
+\makeatother
+\title{MECE 6388: HW \#3}
+\date{\today}
+\author{Eric Eldridge (1561585)}
+\begin{document}
+
+ \maketitle
+
+  \section{2.2-7 Cubic performance index}
+
+  Let 
+  \begin{align*}
+	  x_{k+1}=ax_k+bu_k,
+  \end{align*}
+  where $x_k$ and $u_k$ are scalars, and 
+  \begin{align*}
+	  J=\frac{1}{3}s_Nx_N^3+\frac{1}{3}\sum_{k=0}^{N-1}(qx_k^3+ru_k^3)
+  \end{align*}
+  \begin{enumerate}[label=(\alph*)]
+    \item Write state and costate equations and stationarity condition.
+    \item When can we solve for $u_k$? Under this condition, eliminate $u_k$ from the equation.
+    \item Solve the open-loop control problem (i.e., $x_N$ fixed, $s_N$=0, q=0).
+  \end{enumerate}
+
+
+  \noindent \textit{Solution} \newline \newline
+  
+  To solve the costate and stationarity conditions, we must first define the Hamiltonian function, $H(x_k,u_k)$
+  We start by defining the Hamiltonian function, $H^k$,
+  \begin{align*}
+    H^k = L^k + \lambda^T_{k+1}f^k
+  \end{align*}
+  where 
+  \begin{align*}
+	  L^k &= \frac{1}{3}(qx_k^3+ru_k^3) \\
+	  f^k &= ax_k+bu_k
+  \end{align*}
+  Therefore
+  \begin{align*}
+	  H^k = \frac{1}{3}(qx_k^3+ru_k^3)+\lambda_{k+1}(ax_k+bu_k)
+  \end{align*}
+
+  The state, costate, and stationarity condition are given by the following equations
+  \begin{align*}
+	  x_{k+1}&=ax_k+bu_k \tag{1.1} \\
+	  \lambda_k&=\frac{\partial H^k}{\partial x_k}=qx_k^2+a\lambda_{k+1} \\
+	  \lambda_k&=qx_k^2+a\lambda_{k+1} \tag{1.2} \\
+	  0&=\frac{\partial H^k}{\partial u_k}=ru_k^2+b\lambda_{k+1} \\
+	  u_k^2&=-\frac{b}{r}\lambda_{k+1} \\
+	  u_k&=\sqrt{-\frac{b}{r}\lambda_{k+1}} \tag{1.3} 
+  \end{align*}
+
+  b) Given the constraints in our equation for $u_k$, we can see that the terms inside the square root must be positive.
+  We know that $r>0$ so that gives us the constraint
+  \begin{align*}
+	  -b\lambda_{k+1} \geq 0
+  \end{align*}
+
+  Assuming that this condition is true, we can plug (1.3) into (1.1) and (1.2) to give us the state and costate equations without $u_k$
+  \begin{align*}
+	  x_{k+1}&=ax_k+b(\sqrt{-\frac{b}{r}\lambda_{k+1}}) \\
+  \end{align*}
+  \begin{empheq}[box=\fbox]{align}
+	  \nonumber x_{k+1}&=ax_k+(\sqrt{-\frac{b^3}{r}\lambda_{k+1}}) \\
+	  \nonumber \lambda_k&=qx_k^2+a\lambda_{k+1} 
+  \end{empheq}
+
+  c) To solve the open loop control problem, we let $s_N=q=0, r=1$.
+
+  Now we can write our state and costate equations solved in part b) as 
+  \begin{align*}
+	  \lambda_k&=a\lambda_{k+1} \\
+	  \lambda_k&=a^{N-k}\lambda_N \tag{1.4} \\
+	  x_{k+1}&=ax_k+(\sqrt{-b^3\lambda_{k+1}}) \\
+	  x_{k+1}&=ax_k+\sqrt{-b^3a^{N-k-1}\lambda_N} \tag{1.5}
+  \end{align*}
+  Plugging in for k=0,1,2,3 gives us
+  \begin{align*}
+	  x_1&=ax_0+\sqrt{-b^3a^{N-1}\lambda_N} \\
+	  x_2&=a^2x_0+\sqrt{-b^3a^{N+1}\lambda_N}+\sqrt{-b^3a^{N-2}\lambda_N} \\
+	  x_3&=a^3x_0+\sqrt{-b^3a^{N+3}\lambda_N}+\sqrt{-b^3a^N\lambda_N}+\sqrt{-b^3a^{N-3}\lambda_N} \\
+	  x_k&=a^kx_0+\sqrt{-b^3\lambda_N}\sum_{i=0}^{k-1}(\sqrt{a^{N+2k-3-3i}}) \\
+	  x_k&=a^kx_0+\sqrt{-b^3\lambda_Na^{N+2k-3}}\sum_{i=0}^{k-1}(a^{-\frac{3}{2}i}) \tag{1.6}
+  \end{align*}
+  Using the formula for the sum of a geometric series, we can rewrite (1.6) as
+  \begin{align*}
+	  x_k&=a^kx_0+\sqrt{-b^3\lambda_Na^{N+2k-3}}(\frac{1-a^{-\frac{3}{2}k}}{1-a^{-\frac{3}{2}}}) \tag{1.7}
+  \end{align*}
+  
+  Since the final state is fixed ($x_N=r_N$) we can write
+  \begin{align*}
+	  &x_N=r_N=a^Nx_0+\sqrt{-b^3\lambda_Na^{3N-3}}(\frac{1-a^{-\frac{3}{2}N}}{1-a^{-\frac{3}{2}}}) \\
+	  &\frac{(r_N-a^Nx_0)(1-a^{-\frac{3}{2}})}{1-a^{-\frac{3}{2}N}}=\sqrt{-b^3\lambda_Na^{3N-3}} \\
+  \end{align*}
+  \begin{empheq}[box=\fbox]{align}
+	  \nonumber \lambda_N=-\frac{(r_N-a^Nx_0)^2(1-a^{-\frac{3}{2}})^2}{a^{3N-3}b^3(1-a^{-\frac{3}{2}N})^2} \tag{1.8}
+  \end{empheq}
+
+  We can use equation (1.4) to solve for $\lambda_k$ now that we have $\lambda_N$.
+  \begin{align*}
+	  \lambda_k&=a^{N-k}\lambda_N 
+  \end{align*}
+  Once we have $\lambda_k$, we can solve for $u_k$ using equation (1.3).
+  \begin{align*}
+	  u_k&=\sqrt{-\frac{b}{r}\lambda_{k+1}}
+  \end{align*}
+  Finally, once we have $u_k$, we can solve for $x_k$ forward in time using equation (1.1)
+  \begin{align*}
+	  x_{k+1}&=ax_k+bu_k 
+  \end{align*}
+
+
+  \newpage
+
+  \section{2.3-1 Digital control of harmonic oscillator}
+
+  A harmonic oscillator is described by
+  \begin{align*}
+	  \dot{x}_1&=x_2 \tag{2.1} \\
+	  \dot{x}_2&=-\omega_n^2x_1+u \tag{2.2}
+  \end{align*}
+  \begin{enumerate}[label=(\alph*)]
+    \item Discretize the plant using a sampling period of T.
+    \item With the discretized plant, associate a performance index of 
+      \begin{align*}
+	      J=\frac{1}{2}[s_1(x_N^1)^2+s_2(x_N^2)^2]+\frac{1}{2}\sum_{k=0}^{N-1}[q_1(x_k^1)^2+q_2(x_k^2)^2+ru_k^2]
+      \end{align*}
+	  where the state is $x_k=
+		  \begin{bmatrix}
+			  x_k^1 & x_k^2
+		  \end{bmatrix}^T$. Write scalar equations for a digital optimal controller.
+    \item Write a MATLAB subroutine to simulate the plant dynamics and use the time response program lsim.m to obtain zero-input state trajectories.
+    \item Write a MATLAB subroutine to compute and store the optimal control gains and to update the control $u_k$ given the current state $x_k$. Write a MATLAB driver program to obtain time
+	    response plots for the optimal controller.
+  \end{enumerate}
+
+  \noindent \textit{Solution}
+ 
+  a) To discretize the plant, we use the following equations.
+  \begin{align*}
+	  A^s&=e^{AT} \tag{2.3} \\
+	  B^s&=\int_0^Te^{A\tau}Bd\tau \tag{2.4}
+  \end{align*}
+  where A, B are found by putting the plant into the state space form $\dot{x}=Ax+Bu$.
+  Equations (2.1) and (2.2) can be rewritten as 
+  \begin{align*}
+	  \dot{x}=
+	  \begin{bmatrix}
+		  0 & 1 \\
+		  -\omega_n^2 & 0
+	  \end{bmatrix}x + 
+	  \begin{bmatrix}
+		  0 \\
+		  1 
+	  \end{bmatrix}
+  \end{align*}
+  which tells us that $A=
+  \begin{bmatrix}
+	  0 & 1 \\
+	  -\omega_n^2 & 0
+  \end{bmatrix}$, $B=
+  \begin{bmatrix}
+         0 \\
+         1 
+  \end{bmatrix}$.
+  We can solve for the eigenvalues of A, $\lambda_{1,2}=\pm\omega_nj$. \newline
+  To solve equation (2.3), we will invoke the Cayley-Hamilton Theorem. The Cayley-Hamilton Theorem states that the matrix exponential $e^{AT}$ can be solved by 
+  \begin{align*}
+	  e^{AT}&=\sum_{k=0}^{n-1}\alpha_kA^k \tag{2.5} \\
+	  e^{\lambda_iT}&=\sum_{k=0}^{n-1}\alpha_k\lambda^k \tag{2.6}
+  \end{align*}
+  where the $\alpha_i$’s are determined from the set of equations given by the eigenvalues of A. \newline
+  Using (2.5), we can write 
+  \begin{align*}
+	  e^{AT}&=\alpha_0I+\alpha_1A
+  \end{align*}
+  To solve for $\alpha_0, \alpha_1$, we use equation (2.6)
+  \begin{align*}
+	  e^{-\omega_nTj}&=\alpha_0-j\omega_n\alpha_1 \\
+	  cos(-\omega_nT)+jsin(-\omega_nT)&=\alpha_0-j\omega_n\alpha_1 \tag{2.7} \\
+	  e^{\omega_nTj}&=\alpha_0+\omega_n\alpha_1j \\
+	  cos(\omega_nT)+jsin(\omega_nT)&=\alpha_0+j\omega_n\alpha_1 \tag{2.8}
+  \end{align*}
+  (2.7)+(2.8) gives us 
+  \begin{align*}
+	  2cos(\omega_nT)&=2\alpha_0 \\
+	  \alpha_0&=cos(\omega_nT) \tag{2.9}
+  \end{align*}
+  Plugging in (2.9) to (2.7)
+  \begin{align*}
+	  cos(-\omega_nT)+jsin(-\omega_nT)&=cos(\omega_nT)-j\omega_n\alpha_1 \\
+	  sin(-\omega_nT)&=-\omega_n\alpha_1 \\
+	  \alpha_1&=\frac{sin(\omega_nT)}{\omega_n} \tag{2.10}
+  \end{align*}
+  Now that we have $\alpha_0, \alpha_1$, we can find $e^{AT}$ from (2.5)
+  \begin{align*}
+	  e^{AT}&=(cos(\omega_nT))I+(\frac{sin(\omega_nT)}{\omega_n})A \\
+	  e^{AT}&=
+	  \begin{bmatrix}
+		  cos(\omega_nT) & \frac{sin(\omega_nT)}{\omega_n} \\
+		  -\omega_nsin(\omega_nT) & cos(\omega_nT) \tag{2.11}
+	  \end{bmatrix}
+  \end{align*}
+
+  Now that we have $A^s$, we can plug (2.11) into (2.4) to solve for $B^s$
+  \begin{align*}
+	  B^s&=\int_0^Te^{A\tau}Bd\tau \\ 
+	  B^s&=\int_0^T
+	  \begin{bmatrix}
+		  cos(\omega_n\tau) & \frac{sin(\omega_n\tau)}{\omega_n} \\
+		  -\omega_nsin(\omega_n\tau) & cos(\omega_n\tau)
+	  \end{bmatrix}
+	  \begin{bmatrix}
+		  0 \\
+		  1
+	  \end{bmatrix}d\tau \\
+	  B^s&=\int_0^T
+	  \begin{bmatrix}
+		  \frac{sin(\omega_n\tau)}{\omega_n} \\
+		  cos(\omega_n\tau)
+	  \end{bmatrix}d\tau \\
+	  B^s&=
+	  \begin{bmatrix}
+		  \frac{-cos(\omega_n\tau)}{\omega_n^2}\rvert_0^T \\
+		  \frac{sin(\omega_n\tau)}{\omega_n}\rvert_0^T
+	  \end{bmatrix} \\
+	  B^s&=
+	  \begin{bmatrix}
+		  \frac{1}{\omega_n^2}(1-cos(\omega_nT)) \\
+		  \frac{sin(\omega_nT)}{\omega_n} \tag{2.12}
+	  \end{bmatrix} 
+  \end{align*}
+  
+  \begin{empheq}[box=\fbox]{align}
+	  \nonumber x_{k+1}=
+	  \begin{bmatrix}
+		  cos(\omega_nT) & \frac{sin(\omega_nT)}{\omega_n} \\
+		  -\omega_nsin(\omega_nT) & cos(\omega_nT)
+	  \end{bmatrix}x_k + 
+	  \begin{bmatrix}
+		  \frac{1}{\omega_n^2}(1-cos(\omega_nT)) \\
+		  \frac{sin(\omega_nT)}{\omega_n}\
+	  \end{bmatrix}u_k
+  \end{empheq}
+
+  b) Since we know that $S_k$ is symmetric for all k, let 
+  \begin{align*}
+	  S_k=\begin{bmatrix}
+		  s_1 & s_2 \\
+		  s_2 & s_3
+	  \end{bmatrix}
+  \end{align*}
+  Then the feedback gain is updated by
+  \begin{align*}
+	  \delta&=B^TS_{k+1}B+r \\
+	  \delta&=r+\frac{s_1T^4}{4}+s_2T^3+s_3T^2 \\
+	  K_k&=B^TS_{k+1}A\frac{1}{\delta}
+  \end{align*}
+  We can write
+  \begin{align*}
+	  k_1&=(\frac{s_1T^2}{2}+s_2T)\frac{1}{\delta} \\
+	  k_2&+(\frac{s_1T^3}{2}+\frac{3s_2T^2}{2}+s_3T)\frac{1}{\delta}
+  \end{align*}
+   We can write the closed-loop plant matrix
+   \begin{align*}
+	   A_k^{cl}&=A-BK_k \\
+	   A_k^{cl}&=
+	   \begin{bmatrix}
+		   a_{11}^{cl} & a_{12}^{cl} \\
+		   a_{21}^{cl} & a_{22}^{cl}
+	   \end{bmatrix}=
+	   \begin{bmatrix}
+		   1-\frac{k_1T^a}{2} & T-\frac{k_2T^2}{2} \\
+		   -k_1T & 1-k_2T
+	   \end{bmatrix}
+   \end{align*}
+   The updated cost kernel is 
+   \begin{align*}
+	   S_k&=A^TS_{k+1}A_k^{cl}+Q
+   \end{align*}
+   which yields the scalar updates:
+   \begin{align*}
+	   s_1&=s_1a_{11}^{cl}+s_2a_{22}^{cl}+q_d \\
+	   s_2&=s_1a_{12}^{cl}+s_2a_{22}^{cl} \\
+	   s_3&=(s_1T+s_2)a_{12}^{cl}+(s_2T+s_3)a_{22}^{cl}+q_v
+   \end{align*}
+  
+  c) The unforced system (assuming $w_n=3$, T=0.001) shown below is marginally stable. \newline
+  \begin{center}
+  \includegraphics[width=8cm]{2-3-1-unforced}
+  \end{center}
+
+  d) The response plots for the optimal controller is shown by
+  \begin{center}
+  \includegraphics[width=8cm]{2-3-1-forced}
+  \end{center}
+
+  \newpage The MATLAB code is given below
+  \begin{center}
+  \includegraphics[width=8cm]{2-3-1-matlab1} \\
+  \includegraphics[width=8cm]{2-3-1-matlab2}
+  \end{center}
+
+
+  \newpage
+
+  \section{2.3-2 Digital control of an unstable system}
+
+  Repeat the previous problem for
+  \begin{align*}
+	  \dot{x}_1&=x_2 \tag{3.1} \\
+	  \dot{x}_2&=a^2x_1+bu \tag{3.2}
+  \end{align*}
+
+  \noindent \textit{Solution} \newline \newline
+
+  a) To discretize the plant, we use the following equations.
+  \begin{align*}
+	  A^s&=e^{AT} \tag{3.3} \\
+	  B^s&=\int_0^Te^{A\tau}Bd\tau \tag{3.4}
+  \end{align*}
+  where A, B are found by putting the plant into the state space form $\dot{x}=Ax+Bu$.
+  Equations (2.1) and (2.2) can be rewritten as 
+  \begin{align*}
+	  \dot{x}=
+	  \begin{bmatrix}
+		  0 & 1 \\
+		  a^2 & 0
+	  \end{bmatrix}x + 
+	  \begin{bmatrix}
+		  0 \\
+		  b 
+	  \end{bmatrix}
+  \end{align*}
+  which tells us that $A=
+  \begin{bmatrix}
+	  0 & 1 \\
+	  a^2 & 0
+  \end{bmatrix}$, $B=
+  \begin{bmatrix}
+         0 \\
+         b 
+  \end{bmatrix}$.
+  We can solve for the eigenvalues of A, $\lambda_{1,2}=\pm a$. \newline
+  To solve equation (3.3), we will invoke the Cayley-Hamilton Theorem. The Cayley-Hamilton Theorem states that the matrix exponential $e^{AT}$ can be solved by 
+  \begin{align*}
+	  e^{AT}&=\sum_{k=0}^{n-1}\alpha_kA^k \tag{3.5} \\
+	  e^{\lambda_iT}&=\sum_{k=0}^{n-1}\alpha_k\lambda^k \tag{3.6}
+  \end{align*}
+  where the $\alpha_i$’s are determined from the set of equations given by the eigenvalues of A. \newline
+  Using (3.5), we can write 
+  \begin{align*}
+	  e^{AT}&=\alpha_0I+\alpha_1A
+  \end{align*}
+  To solve for $\alpha_0, \alpha_1$, we use equation (3.6)
+  \begin{align*}
+	  e^{-aT}&=\alpha_0-a\alpha_1 \tag{3.7} \\
+	  e^{aT}&=\alpha_0+a\alpha_1 \tag{3.8} 
+  \end{align*}
+  (3.7)+(3.8) gives us 
+  \begin{align*}
+	  (e^{-aT}+e^{aT})&=2\alpha_0 \\
+	  \alpha_0&=\frac{1}{2}(e^{-aT}+e^{aT}) \\
+	  \alpha_0&=cosh(aT) \tag{3.9}
+  \end{align*}
+  Plugging in (3.9) to (3.7)
+  \begin{align*}
+	  e^{-aT}&=\frac{1}{2}(e^{-aT}+e^{aT})-a\alpha_1 \\
+	  a\alpha_1&=\frac{1}{2}(e^{aT}-e^{-aT}) \\
+	  \alpha_1&=\frac{1}{a}sinh(aT) \tag{3.10}
+  \end{align*}
+  Now that we have $\alpha_0, \alpha_1$, we can find $e^{AT}$ from (2.5)
+  \begin{align*}
+	  e^{AT}&=(cosh(aT))I+\frac{1}{a}sinh(aT)A \\
+	  e^{AT}&=
+	  \begin{bmatrix}
+		  cosh(aT) & \frac{1}{a}sinh(aT) \\
+		  asinh(aT) & cosh(aT)
+	  \end{bmatrix}
+  \end{align*}
+
+  Now that we have $A^s$, we can use equation (2.4) to solve for $B^s$
+  \begin{align*}
+	  B^s&=\int_0^Te^{A\tau}Bd\tau \\ 
+	  B^s&=\int_0^T
+	  \begin{bmatrix}
+		  cosh(a\tau) & \frac{1}{a}sinh(a\tau) \\
+		  asinh(a\tau) & cosh(a\tau)
+	  \end{bmatrix}
+	  \begin{bmatrix}
+		  0 \\
+		  b
+	  \end{bmatrix}d\tau \\
+	  B^s&=\int_0^T
+	  \begin{bmatrix}
+		  \frac{b}{a}sinh(a\tau) \\
+		  bcosh(a\tau)
+	  \end{bmatrix}d\tau \\
+	  B^s&=
+	  \begin{bmatrix}
+		  \frac{b}{a^2}cosh(a\tau)\rvert_0^T \\
+		  \frac{b}{a}sinh(a\tau)\rvert_0^T
+	  \end{bmatrix} \\
+	  B^s&=
+	  \begin{bmatrix}
+		  \frac{b}{a^2}(cosh(aT)-1) \\
+		  \frac{b}{a}sinh(aT)
+	  \end{bmatrix} 
+  \end{align*}
+  
+  \begin{empheq}[box=\fbox]{align}
+	  \nonumber x_{k+1}=
+	  \begin{bmatrix}
+		  cosh(aT) & \frac{1}{a}sinh(aT) \\
+		  asinh(aT) & cosh(aT)
+	  \end{bmatrix}x_k + 
+	  \begin{bmatrix}
+		  \frac{b}{a^2}(cosh(aT)-1) \\
+		  \frac{b}{a}sinh(aT)
+	  \end{bmatrix}u_k
+  \end{empheq}
+  
+  b) Since we know that $S_k$ is symmetric for all k, let 
+  \begin{align*}
+	  S_k=\begin{bmatrix}
+		  s_1 & s_2 \\
+		  s_2 & s_3
+	  \end{bmatrix}
+  \end{align*}
+  Then the feedback gain is updated by
+  \begin{align*}
+	  \delta&=B^TS_{k+1}B+r \\
+	  \delta&=r+\frac{s_1T^4}{4}+s_2T^3+s_3T^2 \\
+	  K_k&=B^TS_{k+1}A\frac{1}{\delta}
+  \end{align*}
+  We can write
+  \begin{align*}
+	  k_1&=(\frac{s_1T^2}{2}+s_2T)\frac{1}{\delta} \\
+	  k_2&+(\frac{s_1T^3}{2}+\frac{3s_2T^2}{2}+s_3T)\frac{1}{\delta}
+  \end{align*}
+   We can write the closed-loop plant matrix
+   \begin{align*}
+	   A_k^{cl}&=A-BK_k \\
+	   A_k^{cl}&=
+	   \begin{bmatrix}
+		   a_{11}^{cl} & a_{12}^{cl} \\
+		   a_{21}^{cl} & a_{22}^{cl}
+	   \end{bmatrix}=
+	   \begin{bmatrix}
+		   1-\frac{k_1T^a}{2} & T-\frac{k_2T^2}{2} \\
+		   -k_1T & 1-k_2T
+	   \end{bmatrix}
+   \end{align*}
+   The updated cost kernel is 
+   \begin{align*}
+	   S_k&=A^TS_{k+1}A_k^{cl}+Q
+   \end{align*}
+   which yields the scalar updates:
+   \begin{align*}
+	   s_1&=s_1a_{11}^{cl}+s_2a_{22}^{cl}+q_d \\
+	   s_2&=s_1a_{12}^{cl}+s_2a_{22}^{cl} \\
+	   s_3&=(s_1T+s_2)a_{12}^{cl}+(s_2T+s_3)a_{22}^{cl}+q_v
+   \end{align*}
+  The unforced system (assuming a=3, b=2,T=0.001) shown below is clearly unstable. \newline
+  \begin{center}
+  \includegraphics[width=8cm]{2-3-2-unforced}
+  \end{center}
+
+  c) The unforced system (assuming $w_n=3$, T=0.001) shown below is marginally stable. \newline
+  \begin{center}
+  \includegraphics[width=8cm]{2-3-2-unforced}
+  \end{center}
+
+  d) The response plots for the optimal controller is shown by
+  \begin{center}
+  \includegraphics[width=8cm]{2-3-2-forced}
+  \end{center}
+  
+  The MATLAB code is given below
+  \begin{center}
+  \includegraphics[width=8cm]{2-3-2-matlab1} \\
+  \includegraphics[width=8cm]{2-3-2-matlab2}
+  \end{center}
+  \newpage
+
+  \section{2.4-1 Steady-state behavior}
+  In this problem we consider a rather unrealistic discrete system because it is simple enough to allow an analytic treatment. Thus, let the plant
+  \begin{align*}
+	  x_{k+1}=
+	  \begin{bmatrix}
+		  0 & 1 \\
+		  0 & 0 
+	  \end{bmatrix}x_k+
+	  \begin{bmatrix}
+		  0 \\
+		  1
+	  \end{bmatrix}u_k
+  \end{align*}
+  have the performance index of
+  \begin{align*}
+	  J_0=\frac{1}{2}s_N^Tx_N+\frac{1}{2}\sum_{k=0}^{N-1}(x_k^T
+	  \begin{bmatrix}
+		  q_1 & q_2 \\
+		  q_2 & q_1
+	  \end{bmatrix}x_k+ru_k^2)
+  \end{align*}
+  \begin{enumerate}[label=(\alph*)]
+	  \item Find the optimal steady-state (i.e., N $\rightarrow \infty$) Riccati solution $S_{\infty}^*$ and show that it is positive definite. Find the optimal steady-state gain $K_{\infty}^*$ 
+		  and determine when it is nonzero.
+	  \item Find the optimal steady-state closed-loop plant and demonstrate its stability.
+	  \item Now the suboptimal constant feedback
+		  \begin{align*}
+			  u_k=-K_{\infty}^*x_k
+		  \end{align*}
+		  is applied to the plant. Find scalar updates for the components of the sub-optimal cost kernel $S_k$. Find the suboptimal steady-state cost kernel $S_{\infty}$ and demonstrate that 
+		  $S_{\infty}=S_{\infty}^*$.
+  \end{enumerate}
+
+  \noindent \textit{Solution} \newline \newline
+  
+  To solve this problem we can analytically solve equation (2.4-12) from the book
+  \begin{align*}
+	  S&=A^T[S-SB(B^TSB+R)^{-1}B^TS]A+Q
+  \end{align*}
+  Plugging in A,B,R=r,Q, assuming $S=
+  \begin{bmatrix}
+	  s_1 & s_2 \\
+	  s_3 & s_4
+  \end{bmatrix}$
+  \begin{align*}
+	  S&=A^T[S-SB(
+	  \begin{bmatrix}
+		  0 & 1
+	  \end{bmatrix}
+          \begin{bmatrix}
+	          s_1 & s_2 \\
+	          s_3 & s_4
+          \end{bmatrix}
+	  \begin{bmatrix}
+		  0 \\
+		  1
+	  \end{bmatrix}+r)^{-1}B^TS]A+Q \\
+	  S&=A^T[S-
+	  \frac{1}{s_4+r}
+	  \begin{bmatrix}
+	          s_1 & s_2 \\
+	          s_3 & s_4
+          \end{bmatrix}
+	  \begin{bmatrix}
+		  0 \\
+		  1
+	  \end{bmatrix}
+	  \begin{bmatrix}
+		  0 & 1
+	  \end{bmatrix}
+	  \begin{bmatrix}
+	          s_1 & s_2 \\
+	          s_3 & s_4
+          \end{bmatrix}
+	  ]A+Q \\
+	  S&=
+	  \begin{bmatrix}
+		  0 & 0 \\
+		  1 & 0
+	  \end{bmatrix}
+	  [\begin{bmatrix}
+	          s_1 & s_2 \\
+	          s_3 & s_4
+          \end{bmatrix}-
+	  \frac{1}{s_4+r}
+	  \begin{bmatrix}
+	          s_2s_3 & s_2s_4 \\
+	          s_3s_4 & s_4^2
+	  \end{bmatrix}]
+	  \begin{bmatrix}
+		  0 & 1 \\
+		  0 & 0
+	  \end{bmatrix}+
+	  \begin{bmatrix}
+		  q_1 & q_2 \\
+		  q_2 & q_1
+	  \end{bmatrix} \\
+	  \begin{bmatrix}
+	          s_1 & s_2 \\
+	          s_3 & s_4
+	  \end{bmatrix}&=
+	  \begin{bmatrix}
+		  0 & 0 \\
+		  0 & s_1-\frac{s_2s_3}{r+s_4}
+	  \end{bmatrix}+
+	  \begin{bmatrix}
+		  q_1 & q_2 \\
+		  q_2 & q_1
+	  \end{bmatrix} \\
+	  \begin{bmatrix}
+	          s_1 & s_2 \\
+	          s_3 & s_4
+	  \end{bmatrix}&=
+	  \begin{bmatrix}
+		  q_1 & q_2 \\
+		  q_2 & q_1+s_1-\frac{s_2s_3}{r+s_4}
+	  \end{bmatrix}
+  \end{align*}
+  This allows us to solve for $s_i$ in terms of $q_1, q_2$, and r
+  \begin{align*}
+	  s_1&=q_1 \\
+	  s_2&=q_2 \\
+	  s_3&=q_2 \\
+	  s_4&=q_1+s_1-\frac{s_2s_3}{r+s_4} \\
+	  s_4^2+rs_4&=2q_1r+2q_1s_4-s_2s_3 \\
+	  s_4^2+rs_4&=2q_1r+2q_1s_4-s_2s_3 \\
+	  s_4^2&+(r-2q_1)s_4+(s_2s_3-2q_1r)=0 \\
+	  s_4&=\frac{(2q_1-r)\pm \sqrt{(r-2_q1)^2-4(s_2s_3-2q_1r)}}{2}
+  \end{align*}
+  Now that we have $s_1$, $s_2$, $s_3$, $s_4$, we have
+  \begin{empheq}[box=\fbox]{align}
+	  \nonumber S_{\infty}=
+	  \begin{bmatrix}
+		  q_1 & q_2 \\
+		  q_2 & s_4
+	  \end{bmatrix}
+  \end{empheq}
+  We can see that $S_{\infty}$ is symmetric and is positive definite if $q_1>0$, $q_1s_4-q_2^2>0$. These are both true so we have shown it is symmetric and positive definite. \newline
+  To find $K_{\infty}$ we use the following equation (2.4-13) from the book
+  \begin{align*}
+	  K_{\infty}&=(B^TS_{\infty}B+R)^{-1}B^TS_{\infty}A \\
+	  K_{\infty}&=\frac{1}{r+s_4}
+	  \begin{bmatrix}
+		  0 & 1
+	  \end{bmatrix}S_{\infty}
+	  \begin{bmatrix}
+		  0 & 1 \\
+		  0 & 0 
+	  \end{bmatrix}
+  \end{align*}
+  \begin{empheq}[box=\fbox]{align}
+	  \nonumber K_{\infty}&=\frac{1}{r+s_4}
+	  \begin{bmatrix}
+		  0 & q_2
+	  \end{bmatrix}
+  \end{empheq}
+
+  b) We now look at evaluating the closed loop system
+  \begin{align*}
+	  A_{cl}&=A-BK_{\infty} \\
+	  A_{cl}&=
+	  \begin{bmatrix}
+		  0 & 1 \\
+		  0 & 0
+	  \end{bmatrix}-
+	  \begin{bmatrix}
+		  0 \\
+		  1
+	  \end{bmatrix}
+	  \begin{bmatrix}
+		  0 & q_2
+	  \end{bmatrix} \\
+	  A_{cl}&=
+	  \begin{bmatrix}
+		  0 & 1 \\
+		  0 & -\frac{q_2}{r+s_4}
+	  \end{bmatrix}
+  \end{align*}
+  This gives us eigevnalues of 
+  \begin{empheq}[box=\fbox]{align}
+	  \nonumber \lambda_{1,2}=0, -\frac{q_2}{r+s_4}
+  \end{empheq}
+  Because $q_2$, r, $s_4$ are all positive, we see that both eigenvalues are stable and the closed-loop plant is stable.
+
+  
+
+\newpage
+  
+  \section{2.4-2 Analytic Riccati solution}
+  Let A=$
+  \begin{bmatrix}
+	  1 & 1 \\
+	  0 & 1
+  \end{bmatrix}$, B=$
+  \begin{bmatrix}
+	  0 \\
+	  1
+  \end{bmatrix}$, $S_N$=I, Q=I
+
+  \begin{enumerate}[label=(\alph*)]
+    \item Let r=0.1. Find the Hamiltonian matrix H and its eigenvalues and eigenvectors. Find the analytic expression for Riccati solution $S_k$. Find the steady-state solution
+	    $S_{\infty}$ using (2.4-42). FInd the optimal steady-state gain $K_{\infty}$ using (2.4-63) and also using Ackermann's formula.
+    \item Let r=1. Find the Hamiltonian matrix and its eigenstructure. Find the steady-state solution $S_{\infty}$ and gain $K_{\infty}$. (Hint: See the discussion following (2.4-63).)
+  \end{enumerate}
+
+  \noindent \textit{Solution} \newline \newline
+
+  The Hamiltonian matrix H is given by the following equation
+  \begin{align*}
+	  H&=\begin{bmatrix}
+		  A^{-1} & A^{-1}BR^{-1}B^T \\
+		  QA^{-1} & A^T+QA^{-1}BR^{-1}B^T
+	  \end{bmatrix} \\
+	  H&=\begin{bmatrix}
+		  1 & -1 & 0 & -10 \\
+		  0 & 1 & 0 & 10 \\
+		  1 & -1 & 1 & -10 \\
+		  0 & 1 & 1 & 11
+	  \end{bmatrix}
+  \end{align*}
+  We can use MATLAB to determine the eigenvalues and eigenvectors of the matrix H as
+  \begin{align*}
+	  \lambda_{1,2,3,4}&=10.7802, 2.7654, 0.3616, 0.0928 \\
+	  v_{1,2,3,4}&=
+	  \begin{bmatrix}
+		  -0.1013 \\
+		  -0.9907 \\
+		  0.0104 \\
+		  0.0899
+	  \end{bmatrix},
+	  \begin{bmatrix}
+		  -0.4740 \\
+		  -0.8369 \\
+		  0.2685 \\
+		  0.0534
+	  \end{bmatrix},
+	  \begin{bmatrix}
+		  -0.5081 \\
+		  0.3243 \\
+		  -0.7959 \\
+		  0.0573
+	  \end{bmatrix},
+	  \begin{bmatrix}
+		  -0.5113 \\
+		  0.4639 \\
+		  -0.5636 \\
+		  0.4537
+	  \end{bmatrix}
+  \end{align*}
+  The analytic expression for the Ricatti solution $S_k$ is given by
+  \begin{align*}
+	  S_k=A^T[S_{k+1}-S_{k+1}B(B^TS_{k+1}B+R)^{-1}B^TS_{k+1})]A+Q
+  \end{align*}
+  To find the steady-state solution ($S_\infty$), we are instructed to use equation (2.4-42)
+  \begin{align*}
+	  S_{\infty}=W_{21}W_{11}^{-1}
+  \end{align*}
+  Therefore to find $S_{\infty}$ we must define and solve W. \newline
+  First, let us define M to be a diagonal matrix containing n eigenvalues outside the unit circle. Then we can define D as
+  \begin{align*}
+	  D&=
+	  \begin{bmatrix}
+		  M & 0 \\
+		  0 & M^{-1}
+	  \end{bmatrix} \\
+	  D&=
+	  \begin{bmatrix}
+		  10.7802 & 0 & 0 & 0 \\
+		  0 & 2.7654 & 0 & 0 \\
+		  0 & 0 & 0.0928 & 0 \\
+		  0 & 0 & 0 & 0.3616
+	  \end{bmatrix}
+  \end{align*}
+  W is defined as a nonsingular matrix whose columns are the eigenvectors of H such that
+  \begin{align*}
+	  &W^{-1}HW=D
+  \end{align*}
+  Matching our eigenvectors that we found earlier to their eigenvalues in the D matrix, we can find W to be
+  \begin{align*}
+	  &W=
+	  \begin{bmatrix}
+		  -0.5113 & -0.5081 & -0.1013 &  0.4740 \\
+                   0.4639 &  0.3243 & -0.9907 &  0.8369 \\
+                  -0.5636 & -0.7959 &  0.0104 & -0.2685 \\
+                   0.4537 &  0.0573 &  0.0899 & -0.0534
+	  \end{bmatrix}
+  \end{align*}
+  Now all that's left to solve for $S_{\infty}$ is to partition W to solve for $W_{11}$, $W_{12}$, $W_{21}$, $W_{22}$.
+  \begin{align*}
+	  W&=
+	  \begin{bmatrix}
+		  W_{11} & W_{12} \\
+		  W_{21} & W_{22}
+	  \end{bmatrix} \\
+	  W_{11}&=
+	  \begin{bmatrix}
+		  -0.5113 & -0.5081 \\
+		  0.4639 & 0.3243
+	  \end{bmatrix} \\
+	  W_{12}&=
+	  \begin{bmatrix}
+		  -0.1013 & 0.4740 \\
+		  -0.9907 & 0.8369
+	  \end{bmatrix} \\
+	  W_{21}&=\begin{bmatrix}
+		  -0.5636 & -0.7959 \\
+		  0.4537 & 0.0573
+	  \end{bmatrix} \\
+	  W_{22}&=\begin{bmatrix}
+		  0.0104 & -0.0534 \\
+		  0.0899 & -0.0534
+	  \end{bmatrix}
+  \end{align*}
+  We now have everything we need to solve $S_{\infty}$ so we plug $W_{11}$ and $W_{21}$ into equation ()
+  \begin{align*}
+	  S_{\infty}&=W_{21}W_{11}^{-1} \\
+	  S_{\infty}&=
+          \begin{bmatrix}
+		  -0.5636 & -0.7959 \\
+		  0.4537 & 0.0573
+	  \end{bmatrix}
+	  \begin{bmatrix}
+		  -0.5113 & -0.5081 \\
+		  0.4639 & 0.3243
+	  \end{bmatrix}^{-1} 
+  \end{align*}
+  \begin{empheq}[box=\fbox]{align}
+	  \nonumber S_{\infty}&=
+	  \begin{bmatrix}
+		  2.6687 & 1.7266 \\
+		  1.7266 & 2.8812
+	  \end{bmatrix}
+  \end{empheq}
+  To find $K_{\infty}$, we plug into our equation
+  \begin{align*}
+	  K_{\infty}&=(B^TS_{\infty}B+R)^{-1}B^TS_{\infty}A \\
+  \end{align*}
+  \begin{empheq}[box=\fbox]{align}
+	  \nonumber K_{\infty}&=
+	  \begin{bmatrix}
+		  0.5792 & 1.5456
+	  \end{bmatrix}
+  \end{empheq}
+
+  Ackermann's formula can be used to solve the Algebraic Ricatti Equation (ARE). \newline
+  The optimal closed-loop poles are the stable eigenvalues of $H^{-1}$. Using MATLAB, we can calculate these to be
+  \begin{align*}
+	  \lambda_{1,2,3,4}&=10.7802, 2.7654, 0.3616, 0.0928
+  \end{align*}
+  Therefore the desired closed loop characteristic polynomial is
+  \begin{align*}
+	  \Delta^{cl}(z)=z^2-0.4544z+0.0335
+  \end{align*}
+  The reachability matrix is 
+  \begin{align*}
+	  U_2&=
+	  \begin{bmatrix}
+		  B & AB
+	  \end{bmatrix} \\
+	  U_2&=
+	  \begin{bmatrix}
+		  0 & 1 \\
+		  1 & 1
+	  \end{bmatrix}
+  \end{align*}
+  Finally, we define $e_n$ as the last column of the nxn identity matrix. For our n=2 case
+  \begin{align*}
+	  e_2=
+	  \begin{bmatrix}
+		  0 \\
+		  1
+	  \end{bmatrix}
+  \end{align*}
+  According to Ackermann's formula
+  \begin{align*}
+	  K_{\infty}&=e_n^TU_n^{-1}\Delta^d(A) \\
+	  K_{\infty}&=
+	  \begin{bmatrix}
+		  0 & 1 
+	  \end{bmatrix}
+	  \begin{bmatrix}
+		  0 & 1 \\
+		  1 & 1
+	  \end{bmatrix}^{-1}(A^2-0.4544A+0.0335) 
+  \end{align*}
+  \begin{empheq}[box=\fbox]{align}
+	  \nonumber K_{\infty}&=
+	  \begin{bmatrix}
+		  0.5792 & 1.5456
+	  \end{bmatrix}
+  \end{empheq}
+  As we can see, these two methods produce the same result as we would expect. \newline \newline
+
+  b) The Hamiltonian matrix H is given by the following equation
+  \begin{align*}
+	  H&=\begin{bmatrix}
+		  A^{-1} & A^{-1}BR^{-1}B^T \\
+		  QA^{-1} & A^T+QA^{-1}BR^{-1}B^T
+	  \end{bmatrix} \\
+	  H&=\begin{bmatrix}
+		  1 & -1 & 0 & -1 \\
+		  0 & 1 & 0 & 1 \\
+		  1 & -1 & 1 & -1 \\
+		  0 & 1 & 1 & 2
+	  \end{bmatrix}
+  \end{align*}
+  To find the eigenstructure, we first find the eigenvalues and eigenvectors of $H^{-1}$
+  \begin{align*}
+	  \lambda_{1,2,3,4}&=2.1220+1.0538i,2.1220-1.0538i,0.3780+0.1877i,0.3780-0.1877i \\
+	  v_{1,2,3,4}&=
+	  \begin{bmatrix}
+		  -0.3330 + 0.3128i \\
+		  -0.7032 + 0.0000i \\
+		   0.0186 - 0.2962i \\
+		   0.4374 + 0.1320i
+	  \end{bmatrix},
+	  \begin{bmatrix}
+		  -0.3330 - 0.3128i \\
+		  -0.7032 + 0.0000i \\
+		   0.0186 + 0.2962i \\
+		   0.4374 - 0.1320i
+	  \end{bmatrix},
+	  \begin{bmatrix}
+		   0.4374 - 0.1320i \\
+		  -0.2472 + 0.1642i \\
+		   0.7032 + 0.0000i \\
+		  -0.1044 + 0.4448i
+	  \end{bmatrix},
+	  \begin{bmatrix}
+		   0.4374 + 0.1320i \\
+		  -0.2472 - 0.1642i \\
+		   0.7032 + 0.0000i \\
+		  -0.1044 - 0.4448i
+	  \end{bmatrix}
+  \end{align*}
+  Now we create the diagonal matrix M, using the stable eigenvalues of $H^{-1}$
+  \begin{align*}
+	  M=
+	  \begin{bmatrix}
+		  0.3616 & 0 \\
+		  0 & 0.0928
+	  \end{bmatrix}
+  \end{align*}
+  and the associate eigenvectors
+  \begin{align*}
+	  \begin{bmatrix}
+		  X \\
+		  \Lambda
+	  \end{bmatrix}&=
+	  \begin{bmatrix}
+		   0.4374 - 0.1320i &  0.4374 + 0.1320i \\
+		  -0.2472 + 0.1642i & -0.2472 - 0.1642i \\
+		   0.7032 + 0.0000i &  0.7032 + 0.0000i \\
+		  -0.1044 + 0.4448i & -0.1044 - 0.4448i
+	  \end{bmatrix} \\
+	  X&=
+	  \begin{bmatrix}
+		   0.4374 - 0.1320i &  0.4374 + 0.1320i \\
+		  -0.2472 + 0.1642i & -0.2472 - 0.1642i 
+	  \end{bmatrix} \\
+	  \Lambda&=
+	  \begin{bmatrix}
+		   0.7032 + 0.0000i &  0.7032 + 0.0000i \\
+		  -0.1044 + 0.4448i & -0.1044 - 0.4448i
+	  \end{bmatrix} 
+  \end{align*}
+  Now that we have $\Lambda$ and X, we can plug in to find $S_{\infty}$.
+  \begin{align*}
+	  S_{\infty}&=\Lambda X^{-1} 
+  \end{align*}
+  \begin{empheq}[box=\fbox]{align}
+	  \nonumber S_{\infty}&=
+	  \begin{bmatrix}
+		  2.9471 & 2.3692 \\
+		  2.3692 & 4.6131
+	  \end{bmatrix}
+  \end{empheq}
+  We can also solve for $K_{\infty}$ using the following equation
+  \begin{align*}
+	  K_{\infty}&=\frac{1}{r}B^T\Lambda MX^{-1} 
+  \end{align*}
+  \begin{empheq}[box=\fbox]{align}
+	  \nonumber K_{\infty}=
+	  \begin{bmatrix}
+		  0.4221 & 1.2439
+	  \end{bmatrix}
+  \end{empheq}
+
+
+\end{document}
+

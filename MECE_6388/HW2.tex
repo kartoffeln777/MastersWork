@@ -1,0 +1,670 @@
+% This is a Latex tutorial document
+
+\documentclass{article}
+% \usepackage[letterpaper, landscape, margin=2in]{geometry}
+\usepackage[margin=1.0in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{empheq}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{pgfplots}
+\usepackage{cancel}
+\usepackage{enumitem}
+\graphicspath{ {/Users/ericeldridge/Documents/GradSchool/Fall2018/OptimalControlTheory/HW1/} }
+\makeatletter
+\def\@seccntformat#1{%
+  \expandafter\ifx\csname c@#1\endcsname\c@section\else
+  \csname the#1\endcsname\quad
+  \fi}
+\makeatother
+\title{MECE 6388: HW \#2}
+\date{\today}
+\author{Eric Eldridge (1561585)}
+\begin{document}
+
+ \maketitle
+
+  \section{2.1-1}
+
+  Let the scalar plant 
+  \begin{align*}
+    x_{k+1}=x_ku_k+1
+  \end{align*}
+  have performance index 
+  \begin{align*}
+    J=\frac{1}{2}\sum_{k=0}^{N-1}u_k^2
+  \end{align*}
+  with final time N=2. Given $x_0$, it is desired to make $x_2$=0.
+  \begin{enumerate}[label=(\alph*)]
+    \item Write state and costate equations with $u_k$ eliminated.
+    \item  Assume the final costate $\lambda_2$ is known. Solve for $\lambda_0$, $\lambda_1$ in terms of $\lambda_2$, and the state. 
+	   Use this to express $x_2$ in terms of $\lambda_2$ and $x_0$. Hence, find a quartic equation for $\lambda_2$ in terms of initial state $x_0$. 
+    \item If $x_0$=1, find the optimal state and costate sequences, the optimal control, and the optimal value of the performance index.
+  \end{enumerate}
+
+
+  \noindent \textit{Solution} \newline \newline
+  
+  The state equation, costate equation, and stationary condition are given respectively as
+  \begin{align*}
+	  x_{k+1}&=x_ku_k+1 \tag{1.1} \\
+	  \lambda_k&=\lambda_{k+1}u_k \tag{1.2} \\
+	  0&=u_k+\lambda_{k+1}x_k \tag{1.3}
+  \end{align*}
+  (1.3) can be solved for $u_k$ and plugged into (1.1) and (1.2) to eliminate $u_k$ from the state and costate equations
+  \begin{empheq}[box=\fbox]{align}
+	  \nonumber \lambda_k&=-\lambda_{k+1}^2x_k \tag{1.4} \\
+	  \nonumber x_{k+1}&=-\lambda_{k+1}x_k^2+1 \tag{1.5}
+  \end{empheq}
+  \newline \newline \noindent b) Plugging in k=0,1 into equation (1.4) gives us 
+  \begin{align*}
+	  \lambda_1&=-\lambda_2^2x_1 \\
+	  \lambda_0&=-\lambda_1^2x_0 \\
+	  \lambda_0&=-(\lambda_2^2x_1)^2x_0 \\
+	  \lambda_0&=-\lambda_2^4x_1^2x_0
+  \end{align*}
+  This gives us $\lambda_{1,2}$ in terms of $\lambda_2$ (known), $x_0$ (known), and $x_1$ (unknown). Therefore we need to find a way to
+  relate $x_0$ to our known variables ($x_0, \lambda_2$). \newline
+  We do this by plugging in k=0,1 to equation (1.5) that we solved in part a). \newline
+  First for k=0
+  \begin{align*}
+	  x_1&=-\lambda_1x_0^2+1 \\
+	  \lambda_1&=-\lambda_2^2x_1 \\
+	  x_1&=\lambda_2^2x_1x_0^2+1 \\
+	  x_1&(1-\lambda_2^2x_0^2)=1 \\
+	  x_1&=\frac{1}{1-\lambda_2^2x_0^2}
+  \end{align*}
+  Now for k=1
+  \begin{align*}
+	  x_2&=0=-\lambda_2x_1^2+1 \\
+	  0&=-\lambda_2(\frac{1}{1-\lambda_2^2x_0^2})^2+1 \\
+	  1&=\frac{\lambda_2}{(1-\lambda_2^2x_0^2)^2} \\
+	  \lambda_2&=1-2\lambda_2^2x_0^2+\lambda_2^4x_0^4
+  \end{align*}
+  \begin{empheq}[box=\fbox]{align}
+	  \nonumber \lambda_2^4x_0^4&-2\lambda_2^2x_0^2-\lambda_2+1=0 \tag{1.6}
+  \end{empheq}
+  \newline \newline \noindent c) If $x_0$=1, then we can use the quartic equation (1.6) found in part b) to find $\lambda_2$
+  \begin{align*}
+	  \lambda_2^4-2\lambda_2^2-\lambda_2+1=0 \\
+	  \lambda_2=0.525, 1.490
+  \end{align*}
+  We will examine the optimal control sequence for both values of $\lambda_2$ and choose the control sequence with the lower
+  performance index. \newline \newline
+  \underline{If $\lambda_2=0.525$}
+  From (1.4)
+  \begin{align*}
+	  \lambda_1&=-\lambda_2^2x_1 \\
+	  \lambda_1&=-\lambda_2^2(\frac{1}{1-\lambda_2^2x_0^2}) \\
+	  \lambda_1&=-(0.525)^2(\frac{1}{1-(0.525)^2(1)^2}) \\
+	  \lambda_1&=-0.3805 \\
+	  \lambda_0&=-\lambda_1^2x_1 \\
+	  \lambda_0&=-(-0.3805)^2(1) \\
+	  \lambda_0&=-0.1448
+  \end{align*}
+  This gives us the costate sequence for $\lambda_2=0.525$
+  \begin{align*}
+	  \lambda_k=\begin{bmatrix}
+		  -0.1448, & -0.3805, & 0.525
+	  \end{bmatrix}
+  \end{align*}
+  To get the state sequence, we use equation (1.5)
+  \begin{align*}
+	  x_{k+1}&=-\lambda_{k+1}x_k^2+1 \\
+	  x_1&=-\lambda_1x_0^2+1 \\
+	  x_1&=-(-0.3805)(1)^2+1 \\
+	  x_1&=1.3805 \\
+	  x_2&=-\lambda_2x_1^2+1 \\
+	  x_2&=-(0.525)(1.3805)^2+1 \\
+	  x_2&=0 \hspace{2mm} (expected) \\
+	  x_k&=\begin{bmatrix}
+		  1, & 1.3805, & 0
+	  \end{bmatrix}
+  \end{align*}
+  To get the optimal control sequence, we solve equation (1.3)
+  \begin{align*}
+	  u_k&=-\lambda_{k+1}x_k \\
+	  u_1&=-\lambda_2x_1 \\
+	  u_1&=-(0.525)(1.3805) \\
+	  u_1&=-0.7248 \\
+	  u_0&=-\lambda_1x_0 \\
+	  u_0&=-(-0.3805)(1) \\
+	  u_0&=0.3805 \\
+	  u_k&=\begin{bmatrix}
+		  0.3805, & -0.7248
+	  \end{bmatrix}
+  \end{align*}
+  Finally we need to calculate the performance index
+  \begin{align*}
+	  J_2&=0 \\
+	  J_1&=\frac{1}{2}u_1^2 \\
+	  J_1&=0.2627 \\
+	  J_0&=\frac{1}{2}(u_1^2+u_2^2) \\
+	  J_0&=0.3351 \\
+	  J_k&=\begin{bmatrix}
+		  0.3351, & 0.2627, & 0
+	  \end{bmatrix}
+  \end{align*}
+
+  \underline{If $\lambda_2=1.490$} \newline \newline
+  From (1.4)
+  \begin{align*}
+	  \lambda_1&=-\lambda_2^2x_1 \\
+	  \lambda_1&=-\lambda_2^2(\frac{1}{1-\lambda_2^2x_0^2}) \\
+	  \lambda_1&=-(1.490)^2(\frac{1}{1-(1.490)^2(1)^2}) \\
+	  \lambda_1&=-1.8196 \\
+	  \lambda_0&=-\lambda_1^2x_1 \\
+	  \lambda_0&=-(-1.8196)^2(1) \\
+	  \lambda_0&=-3.3109
+  \end{align*}
+  This gives us the costate sequence for $\lambda_2=0.525$
+  \begin{align*}
+	  \lambda_k=\begin{bmatrix}
+		  -3.3109, & -1.8196, & 1.490
+	  \end{bmatrix}
+  \end{align*}
+  To get the state sequence, we use equation (1.5)
+  \begin{align*}
+	  x_1&=\frac{1}{1-\lambda_2^2x_0^2} \\
+	  x_1&=\frac{1}{1-(1.49)^2(1)^2} \\
+	  x_1&=-0.8196 \\
+	  x_2&=0  \\
+	  x_k&=\begin{bmatrix}
+		  1, & -0.8196, & 0
+	  \end{bmatrix}
+  \end{align*}
+  To get the optimal control sequence, we solve equation (1.3)
+  \begin{align*}
+	  u_k&=-\lambda_{k+1}x_k \\
+	  u_1&=-\lambda_2x_1 \\
+	  u_1&=-(1.49)(-0.8196) \\
+	  u_1&=1.2212 \\
+	  u_0&=-\lambda_1x_0 \\
+	  u_0&=-(-1.8196)(1) \\
+	  u_0&=1.8196 \\
+	  u_k&=\begin{bmatrix}
+		  1.8196, & 1.2212
+	  \end{bmatrix}
+  \end{align*}
+  Finally we need to calculate the performance index
+  \begin{align*}
+	  J_2&=0 \\
+	  J_1&=\frac{1}{2}u_1^2 \\
+	  J_1&=1.6555 \\
+	  J_0&=\frac{1}{2}(u_1^2+u_2^2) \\
+	  J_0&=2.4007 \\
+	  J_k&=\begin{bmatrix}
+		  2.4007, & 1.6555, & 0
+	  \end{bmatrix}
+  \end{align*}
+  Because we are trying to minimize the performance index, we can see that we want to choose the optimal control sequence associated with $\lambda_2$=0.525
+  \begin{empheq}[box=\fbox]{align}
+	  \nonumber \lambda_k&=\begin{bmatrix}
+		  -0.1448, & -0.3805, & 0.525
+	  \end{bmatrix} \\
+	  \nonumber x_k&=\begin{bmatrix}
+		  1, & 1.3805, & 0
+	  \end{bmatrix} \\
+	  \nonumber u_k&=\begin{bmatrix}
+		  0.3805, & -0.7248
+	  \end{bmatrix} \\
+	  \nonumber J_k&=\begin{bmatrix}
+		  0.3351, & 0.2627, & 0
+	  \end{bmatrix}
+  \end{empheq}
+
+
+  \newpage
+
+  \section{2.1-2 Optimal control of a bilinear system}
+
+  Consider the bilinear system
+  \begin{align*}
+	  x_{k+1}=Ax_k+Dx_ku_k+bu_k \tag{2.1}
+  \end{align*}
+  where $x_k \epsilon \mathbb{R}^n$, $u_k \epsilon \mathbb{R}$, with quadratic performance index
+  \begin{align*}
+	  J=\frac{1}{2}x_N^TS_Nx_N+\frac{1}{2}\sum_{k=0}^{N-1}(x_k^TS_kx_k+ru_k^2) \tag{2.2}
+  \end{align*}
+  where $S_N \geq 0$, $Q \geq 0$, $r>0$. Show that the optimal control is the bilinear state–costate feedback,
+  \begin{align*}
+	  u_k=(-b+Dx_k)^T\lambda_{k+1}/r \tag{2.3}
+  \end{align*}
+  and that the state and costate equations after eliminating $u_k$ are
+  \begin{align*}
+	  x_{k+1}&=Ax_k-(b+Dx_k)(b+Dx_k)^T\lambda_{k+1}/r \tag{2.4} \\
+	  \lambda_k&=Qx_k+A^T\lambda_{k+1}-(b+Dx_k)^T\lambda_{k+1}D^T\lambda_{k+1}/r \tag{2.5}
+  \end{align*}
+
+
+  \noindent \textit{Solution}
+  
+  We start by defining the Hamiltonian function, $H^k$,
+  \begin{align*}
+    H^k = L^k + \lambda^T_{k+1}f^k
+  \end{align*}
+  where 
+  \begin{align*}
+    L^k &= x_k^TQx_k+ru_k^2 \\
+    f^k &= Ax_k+dx_ku_k+bu_k 
+  \end{align*}
+  The state, costate, and stationary equations give us the following 3 sets of equations
+  \begin{align*}
+    x_{k+1}&=\frac{\partial H^k}{\partial \lambda_{k+1}} = Ax_k+Dx_ku_k+bu_k \\
+    \lambda_k&=\frac{\partial H^k}{\partial x_k} = \frac{1}{2}(Qx_k+Q^Tx_k)+\frac{\partial}{\partial x_k}(\lambda^T_{k+1}Ax_k+\lambda^T_{k+1}Dx_ku_k) \\
+    \lambda_k&=\frac{1}{2}(Qx_k+Q^Tx_k)+A^T\lambda_{k+1}+D^T\lambda_{k+1}u_k \tag{2.6} \\
+    0 &= \frac{\partial H^k}{\partial u_k} = ru_k+(Dx_k+b)^T\lambda_{k+1} \tag{2.7} 
+  \end{align*}
+  We can solve (2.7) for $u_k$
+  \begin{empheq}[box=\fbox]{align}
+    \nonumber u_k &= -\frac{1}{r}(Dx_k+b)^T\lambda_{k+1}
+  \end{empheq}
+  Plugging $u_k$, (2.3) into (2.1) gives
+  \begin{align*}
+    x_{k+1}&= Ax_k+Dx_k((-\frac{1}{r}(Dx_k+b)^T\lambda_{k+1}))+b(-\frac{1}{r}(Dx_k+b)^T\lambda_{k+1}) \\
+  \end{align*}
+  \begin{empheq}[box=\fbox]{align}
+    \nonumber x_{k+1}&= Ax_k-\frac{1}{r}(Dx_k+b)(Dx_k+b)^T\lambda_{k+1}
+  \end{empheq}
+  Plugging $u_k$, (2.3) into (2.6)
+  \begin{align*}
+    \lambda_k=\frac{1}{2}(Qx_k+Q^Tx_k)+A^T\lambda_{k+1}+D^T\lambda_{k+1}(-\frac{1}{r}(Dx_k+b)^T\lambda_{k+1})
+  \end{align*}
+  \begin{empheq}[box=\fbox]{align}
+	  \nonumber \frac{1}{2}(Qx_k+Q^Tx_k)+A^T\lambda_{k+1}-\frac{1}{r}(Dx_k+b)^T\lambda_{k+1}D^T\lambda_{k+1}
+  \end{empheq}
+  We have shown (2.3), (2.4), and (2.5) to be true which is what we wanted to do.
+    
+  \newpage
+
+  \section{2.1-3}
+
+  Rederive the equations in Table 2.1-1 to find the optimal controller for the nonlinear generalized state-space 
+  (or descriptor) system 
+  \begin{align*}
+	  Ex_{k+1}=f^k(x_k,u_k)
+  \end{align*}
+  where E is singular. These systems often arise in circuit analysis, economics, and similar areas. \newline \newline
+
+  \noindent \textit{Solution} \newline \newline
+  The system model is given to us as
+  \begin{align*}
+    Ex_{k+1}=f^k(x_k,u_k)
+  \end{align*}
+  Assuming we use the same performance index
+  \begin{align*}
+	  J_i=\phi(N,x_N)+\sum_{k=i}^{N-1}L_k(x_k,u_k)
+  \end{align*}
+  Let $\lambda \epsilon \mathbb{R}^n$ and append the constraints to the performance index
+  \begin{align*}
+	  J'=\phi(N,x_N)+\sum_{k=i}^{N-1}[L_k(x_k,u_k)+\lambda_{k+1}^T(f^k(x_k,u_k)-Ex_{k+1})]
+  \end{align*}
+  Next, we define the Hamiltonian, $H^k$ as
+  \begin{align*}
+    H^k(x_k, u_k)=L^k(x_k, u_k)+\lambda_{k+1}^T(f^k(x_k,u_k))
+  \end{align*}
+  We can write
+  \begin{align*}
+    J'=\phi(N,x_N)+H^i-\lambda_N^TEx_N+\sum_{k=i+1}^{N-1}(H^k-\lambda_k^TEx_k)
+  \end{align*}
+  Now we will look at the increment $dJ'$ due to increment in the variables $x_k, u_k, \lambda_k$
+  \begin{align*}
+	  dJ'=(\phi_{x_N}-E^T\lambda_N)^Tdx_N+(H_{x_i}^i)^Tdx_i+(H_{u_i}^i)^Tdu_i+\sum_{k=i+1}^{N-1}[(H_{x_k}^k-\lambda_k^TE)^Tdx_k+(H_{u_k}^k)^Tdu_k+(H_{\lambda_k}^{k-1}-x_k^TE)^Td\lambda_k]
+  \end{align*}
+  Necessary conditions for a constrained minimum are thus given by
+  \begin{align*}
+    (\phi_{x_N}-E^T\lambda_N)^Tdx_N=0 \\
+    \frac{\partial H^k}{\partial x_k}-\lambda_k^TE=0 \\
+    \frac{\partial H^{k-1}}{\partial \lambda_k}-x_k^TE=0 \\
+    \frac{\partial H^k}{\partial \lambda_{k+1}}-x_{k+1}^TE=0 \\
+    \frac{\partial H^k}{\partial u_k} = 0
+  \end{align*}
+  \newpage
+  Based on the above set of equations, we can rewrite Table 2.1-1 as
+  \begin{center}
+    \begin{tabular}{ |c|c| } 
+      \hline
+      System model &  \\ 
+	           & $Ex_{k+1}=f^k(x_k,u_k)$ \\
+      Performance Index & \\ 
+	    & $J_i=\phi(N,x_N)+\sum_{k=i}^{N-1}L_k(x_k,u_k)$ \\
+      Hamiltonian & \\ 
+	    & $H^k(x_k, u_k)=L^k(x_k, u_k)+\lambda_{k+1}^T(f^k(x_k,u_k))$ \\
+      Optimal Controller & \\
+      State Equation: & \\
+	    & $Ex_{k+1}=\frac{\partial H^k}{\partial \lambda_{k+1}}=f^k(x_k,u_k)$ \\
+      Costate Equation: & \\
+	    & $\lambda_k^TE=\frac{\partial H^k}{\partial x_k}=(\frac{\partial f^k}{\partial x_k})^T\lambda_{k+1}+\frac{\partial L^k}{\partial x_k}$ \\
+      Stationarity Condition: & \\
+	    & $0=\frac{\partial H^k}{\partial u_k}=(\frac{\partial f^k}{\partial u_k})^T\lambda_{k+1}+\frac{\partial L^k}{\partial u_k}$ \\
+      Boundary Conditions: & \\
+	    & $(\phi_{x_N}-E^T\lambda_N)^Tdx_N=0$ \\
+	    & \\
+	    & $(\frac{\partial L^i}{\partial x_i}+(\frac{\partial f^i}{\partial x_i})^T\lambda_{i+1})^Tdx_i=0$ \\
+	    & . \\
+      \hline
+     \end{tabular}
+  \end{center}
+  \newpage
+
+  \section{2.2-2 Solutions to the algebraic Lyapunov equation}
+  \begin{enumerate}[label=(\alph*)]
+	  \item Find all possible solutions to (2.2-26) if \newline
+                $A=\begin{bmatrix}
+			\frac{1}{2} & 1 \\
+			0 & -\frac{1}{2}
+  \end{bmatrix}$, $C=\begin{bmatrix}
+			2 & 0
+  \end{bmatrix}$, $Q=C^TC$ \newline
+		  Hint: Let
+		  \begin{align*}
+			  P=\begin{bmatrix}
+			p_1 & p_2 \\
+			p_3 & p_4
+  \end{bmatrix}
+		  \end{align*}
+		  substitute into (2.2-26), and solve for the scalars, $p_i$. Alternatively, the results of problem 2.1-1 can be used.
+    \item Now find the symmetric solutions. 
+  \end{enumerate}
+
+  \noindent \textit{Solution} \newline \newline
+
+  First, we solve for Q,
+  \begin{align*}
+	  Q&=C^TC = 
+	  \begin{bmatrix}
+		  2 \\
+		  0
+	  \end{bmatrix}
+	  \begin{bmatrix}
+		  2 & 0
+	  \end{bmatrix} \\
+	  Q&= 
+	  \begin{bmatrix}
+		  4 & 0 \\
+		  0 & 0 
+	  \end{bmatrix}
+  \end{align*}
+  Now we solve the equation
+  \begin{align*}
+	  S=A^TSA+Q
+  \end{align*}
+  Per the hint we choose $S=P=\begin{bmatrix}
+			p_1 & p_2 \\
+			p_3 & p_4
+  \end{bmatrix}$
+  which gives us the following equation to solve
+  \begin{align*}
+    \begin{bmatrix}
+	    p_1 & p_2 \\
+	    p_3 & p_4
+    \end{bmatrix} = 
+    \begin{bmatrix}
+	    \frac{1}{2} & 0 \\
+	    1 & -\frac{1}{2}
+    \end{bmatrix}
+    \begin{bmatrix}
+	    p_1 & p_2 \\
+	    p_3 & p_4
+    \end{bmatrix} 
+    \begin{bmatrix}
+	    \frac{1}{2} & 1 \\
+	    0 & -\frac{1}{2}
+    \end{bmatrix} +
+    \begin{bmatrix}
+	    4 & 0 \\
+	    0 & 0
+    \end{bmatrix} \\
+    \begin{bmatrix}
+	    p_1 & p_2 \\
+	    p_3 & p_4
+    \end{bmatrix} = 
+    \begin{bmatrix}
+	    \frac{1}{2}p_1 & \frac{1}{2}p_2 \\
+	    p_1-\frac{1}{2}p_3 & p_2-\frac{1}{2}p_4
+    \end{bmatrix}
+    \begin{bmatrix}
+	    \frac{1}{2} & 1 \\
+	    0 & -\frac{1}{2}
+    \end{bmatrix}+
+    \begin{bmatrix}
+	    4 & 0 \\
+	    0 & 0
+    \end{bmatrix} \\
+    \begin{bmatrix}
+	    p_1 & p_2 \\
+	    p_3 & p_4
+    \end{bmatrix} = 
+    \begin{bmatrix}
+	    \frac{1}{4}p_1 & \frac{1}{2}p_1-\frac{1}{4}p_2 \\
+	    \frac{1}{2}p_1-\frac{1}{4}p_3 & p_1-\frac{1}{2}p_2-\frac{1}{2}p_3+\frac{1}{4}p_4
+    \end{bmatrix} +
+    \begin{bmatrix}
+	    4 & 0 \\
+	    0 & 0
+    \end{bmatrix} \\
+    \begin{bmatrix}
+	    \frac{3}{4}p_1 & -\frac{1}{2}p_1+\frac{5}{4}p_2 \\
+	    -\frac{1}{2}p_1+\frac{5}{4}p_3 & -p_1+\frac{1}{2}p_2+\frac{1}{2}p_3+\frac{3}{4}p_4
+    \end{bmatrix} =
+    \begin{bmatrix}
+	    4 & 0 \\
+	    0 & 0
+    \end{bmatrix} 
+  \end{align*}
+  This gives us 4 equations with 4 unknowns
+  \begin{align*}
+	  \frac{3}{4}p_1 &= 4 \\
+	  -\frac{1}{2}p_1+\frac{5}{4}p_2 &= 0 \\
+	  -\frac{1}{2}p_1+\frac{5}{4}p_3 &= 0 \\
+	   -p_1+\frac{1}{2}p_2+\frac{1}{2}p_3+\frac{3}{4}p_4 &= 0
+  \end{align*}
+  This can be written as 
+  \begin{align*}
+	  \begin{bmatrix}
+		  \frac{3}{4} & 0 & 0 & 0 \\
+		  -\frac{1}{2} & \frac{5}{4} & 0 & 0 \\
+		  -\frac{1}{2} & 0 & \frac{5}{4} & 0 \\
+		  -1 & \frac{1}{2} & \frac{1}{2} & \frac{3}{4}
+          \end{bmatrix} 
+	  \begin{bmatrix}
+		  p_1 \\
+		  p_2 \\
+		  p_3 \\
+		  p_4
+	  \end{bmatrix} = 
+	  \begin{bmatrix}
+		  4 \\
+		  0 \\
+		  0 \\
+		  0 \\
+	  \end{bmatrix} \\
+	  \begin{bmatrix}
+		  p_1 \\
+		  p_2 \\
+		  p_3 \\
+		  p_4
+	  \end{bmatrix} = 
+	  \begin{bmatrix}
+		  \frac{3}{4} & 0 & 0 & 0 \\
+		  -\frac{1}{2} & \frac{5}{4} & 0 & 0 \\
+		  -\frac{1}{2} & 0 & \frac{5}{4} & 0 \\
+		  -1 & \frac{1}{2} & \frac{1}{2} & \frac{3}{4}
+	  \end{bmatrix}^{-1}
+	  \begin{bmatrix}
+		  4 \\
+		  0 \\
+		  0 \\
+		  0 \\
+	  \end{bmatrix} \\
+	  \begin{bmatrix}
+		  p_1 \\
+		  p_2 \\
+		  p_3 \\
+		  p_4
+	  \end{bmatrix} = 
+	  \begin{bmatrix}
+		  5.333 \\
+		  2.133 \\
+		  2.133 \\
+		  4.267 
+	  \end{bmatrix}
+  \end{align*}
+  This gives us 
+  \begin{empheq}[box=\fbox]{align}
+	  \nonumber P=
+	  \begin{bmatrix}
+		  5.333 & 2.133 \\
+		  2.133 & 4.267
+	  \end{bmatrix}
+  \end{empheq}
+  This is a symmetric solution.
+
+\newpage
+  
+  \section{2.2-4 Control of a scalar system} Let
+  \begin{align*}
+	  x_{k+1}=2x_k+u_k
+  \end{align*}
+  \begin{enumerate}[label=(\alph*)]
+    \item Find the homogeneous solution $x_k$ for k = 0, 5 if $x_0$ = 3
+    \item Find the minimum-energy control sequence $u_k$ required to drive $x_0$  = 3 to $x_5$ = 0. Check your answer by finding the resulting state trajectory.
+    \item Find the optimal feedback gain sequence $K_k$ to minimize the performance index
+          \begin{align*}
+	    J_0=5x_5^2+\frac{1}{2}\sum_{k=0}^{4}(x_k^2+u_k^2)
+          \end{align*}
+	  Find the resulting state trajectory and the costs to go $J^*_k$ for k = 0, 5.
+  \end{enumerate}
+
+  \noindent \textit{Solution} \newline \newline
+
+  a) The homogenous solution implies $u_k$=0 which gives
+  \begin{align*}
+	  x_{k+1}=2x_k
+  \end{align*}
+  Knowing $x_0$=3, we can solve for $x_k$ by plugging in for k=0,1,2,3,4
+  \begin{empheq}[box=\fbox]{align}
+	  \nonumber x_k=\begin{bmatrix}
+		  3, & 6, & 12, & 24, & 48
+	  \end{bmatrix}
+  \end{empheq}
+  \newline \newline
+  \noindent b) We wish to find the minimum-energy solution with a fixed final state so we use the performance index
+  \begin{align*}
+	  J=\frac{1}{2}\sum_{k=0}^4(u_k^2)
+  \end{align*}
+  From the performance index, we see that r=1. \newline  
+  Comparing our system model $x_{k+1}=2x_k+u_k$ to the generic system model $x_{k+1}=ax_k+bu_k$, we see that a=2 and b=1 \newline
+  The optimal control sequence is given by (2.2-38) in the textbook.
+  \begin{align*}
+	  u_k^*&=\frac{1}{r}(b)(a)^{N-k-1}G^{-1}_{0,N}(r_N-A^Nx_0) \\
+	  u_k^*&=\frac{1}{1}(1)(2)^{5-k-1}G^{-1}_{0,5}(1-(2^5)(3)) \\
+	  u_k^*&=(2)^{4-k}G^{-1}_{0,5}(-95) 
+  \end{align*}
+  where $G_{0,N}$ is defined as 
+  \begin{align*}
+	  U_N
+	  \begin{bmatrix}
+		  \frac{1}{r} & \cdots & 0 \\
+		  \vdots & \ddots & \vdots \\
+		  0 & \cdots & \frac{1}{r}
+	  \end{bmatrix} U_N^T
+  \end{align*}
+  where $U_N$ is defined as 
+  \begin{align*}
+	  \begin{bmatrix}
+		  b & ab & \cdots & a^{N-1}b
+	  \end{bmatrix}
+  \end{align*}
+  Now, we can solve $U_5$ as
+  \begin{align*}
+	  \begin{bmatrix}
+		  1 & 2 & 4 & 8 & 16
+	  \end{bmatrix}
+  \end{align*}
+  We plug this in to find $G_{0,5}$
+  \begin{align*}
+	  G_{0,5}&=\begin{bmatrix}
+		  1 & 2 & 4 & 8 & 16
+	  \end{bmatrix} I
+	  \begin{bmatrix}
+		  1 & 2 & 4 & 8 & 16
+	  \end{bmatrix}^T \\
+	  G_{0,5}&=341
+  \end{align*}
+  Plugging this into $u_k^*$, we find the optimal control sequence we are seeking.
+  \begin{align*}
+	  u_k^*&=-\frac{95}{341}(2)^{4-k}
+  \end{align*}
+  Plugging in for k=0,1,2,3,4 gives
+  \begin{empheq}[box=\fbox]{align}
+	  u_k=\begin{bmatrix}
+		  -4.4575, & -2.2287, & -1.1144, & -0.5572, & -0.2786
+	  \end{bmatrix}
+  \end{empheq}
+  \newline \newline
+  \noindent c) This is a free final state with closed loop control. From the given performance index, we can see that $s_N$=10, $q_k=r_k$=1. \newline
+  Since we know $s_N$, we can use(2.2-52) from the textbook to solve backwards in time for $s_k$. \newline
+  The equation is given as
+  \begin{align*}
+	  s_k&=a_ks_{k+1}(1+b_k\frac{1}{r_k}b_ks_{k+1})^{-1}a_k+q_k \\
+	  s_k&=\frac{(2)s_{k+1}(2)}{1+(1)(\frac{1}{1})(1)s_{k+1}}+1 \\
+	  s_k&=\frac{4s_{k+1}}{1+s_{k+1}}+1
+  \end{align*}
+  Plugging in k=0,1,2,3,4 gives us
+  \begin{align*}
+	  s_k=\begin{bmatrix}
+		  4.2362, & 4.2372, & 4.2439, & 4.2903, & 4.6364, & 10
+	  \end{bmatrix}
+  \end{align*}
+  Now that we have the sequence $s_k$, we can find the optimal feedback gain sequence $K_k$. \newline
+  The equation for the optimal feedback gain sequence is given by (2.2-57) in the textbook.
+  \begin{align*}
+	  K_k&=(b_ks_{k+1}b_k+r_k)^{-1}b_ks_{k+1}a_k \\
+	  K_k&=((1)s_{k+1}(1)+1)^{-1}(1)s_{k+1}(2) \\
+	  K_k&=\frac{2s_{k+1}}{s_{k+1}+1}
+  \end{align*}
+  Plugging in k=0,1,2,3,4 gives us
+  \begin{align*}
+	  K_k=\begin{bmatrix}
+		  1.6181, & 1.6186, & 1.6219, & 1.6452, & 1.8182
+	  \end{bmatrix}
+  \end{align*}
+  To find the optimal state trajectory, we use (2.2-50) from the textbook and iterate over k=0,1,2,3,4
+  \begin{align*}
+	  x_k&=(a-bK_k)x_k \\
+	  x_k&=\begin{bmatrix}
+		  3.0, & 1.1457, & 0.4370, & 0.1652, & 0.0586, & 0.0107
+	  \end{bmatrix}
+  \end{align*}
+  We can solve for $u_k$ using the relation $u_k=-K_kx_k$. Iterating over k=0,1,2,3,4 gives us
+  \begin{align*}
+	  u_k=\begin{bmatrix}
+		  -4.8543, & -1.8544, & -0.7088, & -0.2718, & -0.1065  
+	  \end{bmatrix}
+  \end{align*}
+  This can now be plugged into our performance index (shown below) to calculated $J^*_k$
+  \begin{align*}
+	    J_i=5x_5^2+\frac{1}{2}\sum_{k=i}^{4}(x_k^2+u_k^2)
+  \end{align*}
+  Plugging in and solving for $J^*_k$ for k=0,1,2,3,4,5 gives
+  \begin{align*}
+	  J^*_k=\begin{bmatrix}
+		  5.7245E-4, & 0.008, & 0.0586, & 0.4053, & 2.781, & 19.0631
+	  \end{bmatrix}
+  \end{align*}
+  Therefore we have found the optimal state trajectory, the optimal control sequence, and the performance indices \newline
+  \begin{empheq}[box=\fbox]{align}
+	  \nonumber x_k&=\begin{bmatrix}
+		  3.0, & 1.1457, & 0.4370, & 0.1652, & 0.0586, & 0.0107
+	  \end{bmatrix} \\
+	  \nonumber u_k&=\begin{bmatrix}
+		  -4.8543, & -1.8544, & -0.7088, & -0.2718, & -0.1065  
+	  \end{bmatrix} \\
+	  \nonumber J^*_k&=\begin{bmatrix}
+		  5.7245E-4, & 0.008, & 0.0586, & 0.4053, & 2.781, & 19.0631
+	  \end{bmatrix}
+  \end{empheq}
+\end{document}
+

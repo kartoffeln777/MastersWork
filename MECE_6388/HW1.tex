@@ -1,0 +1,563 @@
+% This is a Latex tutorial document
+
+\documentclass{article}
+% \usepackage[letterpaper, landscape, margin=2in]{geometry}
+\usepackage[margin=1.0in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{empheq}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{pgfplots}
+\usepackage{cancel}
+\usepackage{enumitem}
+\graphicspath{ {/Users/ericeldridge/Documents/GradSchool/Fall2018/OptimalControlTheory/HW1/} }
+\makeatletter
+\def\@seccntformat#1{%
+  \expandafter\ifx\csname c@#1\endcsname\c@section\else
+  \csname the#1\endcsname\quad
+  \fi}
+\makeatother
+\title{MECE 6388: HW \#1}
+\date{\today}
+\author{Eric Eldridge (1561585)}
+\begin{document}
+
+ \maketitle
+
+  \section{1.1-1}
+
+  Find the critical points $u*$ (classify them) and the value of $L(u*)$ in
+Example 1.1-1 if
+  \begin{enumerate}[label=(\alph*)]
+    \item $Q = \begin{bmatrix}
+      -1 & 1 \\
+      1 & -2
+    \end{bmatrix}$, $S^T = \begin{bmatrix}
+      0 & 1
+      \end{bmatrix}$
+    \item $Q = \begin{bmatrix}
+      -1 & 1 \\
+      1 & 2
+    \end{bmatrix}$, $S^T = \begin{bmatrix}
+      0 & 1
+    \end{bmatrix}$
+  \end{enumerate}
+
+  \noindent Sketch the contours of L and find the gradient $L_u$.
+  \newline \newline
+
+  \noindent \textit{Solution} \newline \newline
+  From Example 1.1-1, L(u) is defined as 
+  \begin{align*}
+    L(u) = \frac{1}{2}u^TQu + S^Tu \tag{1.1}
+  \end{align*}
+  The critical point is given by setting $L_u=0$,
+  \begin{align*}
+    L_u &= Qu + S = 0 \\
+    u*  &= -Q^{-1}S \tag{1.2}
+  \end{align*}
+  We plug (1.2) into (1.1) \newline
+  For part a)
+  \begin{align*}
+    u*  &= -
+    \begin{bmatrix}
+      -1 & 1 \\
+      1 & -2
+    \end{bmatrix}^{-1}
+    \begin{bmatrix}
+      0 \\
+      1
+    \end{bmatrix} \\
+    u*  &= -
+    \begin{bmatrix}
+      -2 & -1 \\
+      -1 & -1
+    \end{bmatrix}
+    \begin{bmatrix}
+      0 \\
+      1
+    \end{bmatrix}\\
+  \end{align*}
+  \begin{empheq}[box=\fbox]{align}
+    \nonumber u* = 
+    \begin{bmatrix}
+      1 \\
+      1
+    \end{bmatrix}
+  \end{empheq}
+
+  \noindent For part b)
+  \begin{align*}
+    u* &= -
+    \begin{bmatrix}
+      -1 & 1 \\
+      1 & 2
+    \end{bmatrix}^{-1}
+    \begin{bmatrix}
+      0 \\
+      1
+    \end{bmatrix} \\
+    u* &= -\frac{1}{3}
+    \begin{bmatrix}
+      -2 & 1 \\
+      1 & 1
+    \end{bmatrix}
+    \begin{bmatrix}
+      0 \\
+      1
+    \end{bmatrix}\\
+  \end{align*}
+  \begin{empheq}[box=\fbox]{align}
+    \nonumber u* = -\frac{1}{3}
+    \begin{bmatrix}
+      1 \\
+      1
+    \end{bmatrix}
+  \end{empheq}
+     
+  Contour map for part (a) \newline
+  \includegraphics[width=8cm]{contour_map_1-1-1a}
+  
+  Contour map for part (b) \newline
+  \includegraphics[width=8cm]{contour_map_1-1-1b}
+  
+  \newpage
+
+  \section{1.1-2}
+
+  Find the minimum value of 
+  \begin{align*}
+    L(x_1, x_2) = x_1^2 - x_1x_2 + x_2^2 + 3x_1 \tag{2.1}
+  \end{align*}
+  Find the curvature matrix at the minimum. Sketch the contours, showing the gradient at 
+  several points. \newline \newline
+
+  \noindent \textit{Solution}
+
+  \begin{align*}
+    \frac{\partial L}{\partial x_1} &= 2x_1 - x_2 + 3 \tag{2.2} \\
+    \frac{\partial L}{\partial x_2} &= 2x_2 - x_1 \tag{2.3}
+  \end{align*}
+  Setting $\frac{\partial L}{\partial x_1} and \frac{\partial L}{\partial x_2} = 0$ gives us the following
+  \begin{align*}
+    \begin{bmatrix}
+      2 & 1 \\
+      -1 & 2
+    \end{bmatrix}
+    \begin{bmatrix}
+      x^*_1 \\
+      x^*_2
+    \end{bmatrix} &= 
+    \begin{bmatrix}
+      -3 \\
+      0
+    \end{bmatrix} \\
+    \begin{bmatrix}
+      x^*_1 \\
+      x^*_2
+    \end{bmatrix} &= 
+    \begin{bmatrix}
+      -2 \\
+      -1
+    \end{bmatrix} \tag{2.4}
+  \end{align*} 
+  To find if this critical point is a minimum or a maximum, we need to look at the curvature matrix.
+  \begin{align*}
+    L_{xx} &= 
+    \begin{bmatrix}
+      \frac{\partial^2L}{\partial x_1^2} & \frac{\partial^2L}{\partial x_1x_2} \\
+      \frac{\partial^2L}{\partial x_1x_2} & \frac{\partial^2L}{\partial x_2^2}
+    \end{bmatrix} \\
+    L_{xx} &= 
+    \begin{bmatrix}
+      2 & -1 \\
+      -1 & 2
+    \end{bmatrix} \tag{2.5}
+  \end{align*}
+  We can see from observation that $L_{xx}$ is positive definite which means that the critcal point x* is a local minimum.
+     
+  \includegraphics[width=8cm]{contour_map_1-1-2}
+  
+  \newpage
+
+  \section{1.2-2 Shortest distance between 2 points}
+
+  \indent Let $P_1 = (x_1, y_1)$ and $P_2 = (x_2, y_2)$ be two given points. \newline
+  Find the third point $P_3 = (x_3, y_3)$ such that $d_1 + d_2$ is minimized with the
+  constraint $d_1 = d_2$, where $d_1$ is the distance from $P_3$ to $P_1$ and $d_2$ is
+  the distance from $P_3$ to $P_2$. \newline \newline
+
+  \noindent \textit{Solution} \newline
+  
+  \noindent We define $d_1$, $d_2$ as 
+  \begin{align*}
+    d_1 &= \sqrt{(x_3 - x_1)^2 + (y_3-y_1)^2} \tag{3.1} \\
+    d_2 &= \sqrt{(x_3 - x_2)^2 + (y_3-y_2)^2} \tag{3.2} 
+  \end{align*}
+  We want to minimize $L(x_3, y_3)=d_1+d_2$ subject to the constraint $f(x_3, y_3) = 0$.
+  Since $d_1$ and $d_2$ are positive we can instead minimize $L(x_3, y_3)=d_1^2+d_2^2$ so that
+  \begin{align*}
+    L(x_3, y_3) &= (x_3 - x_1)^2 + (y_3-y_1)^2 + (x_3 - x_2)^2 + (y_3-y_2)^2 \tag{3.3} \\
+    f(x_3, y_3) &= (x_3 - x_1)^2 + (y_3-y_1)^2 - [(x_3 - x_2)^2 + (y_3-y_2)^2] \tag{3.4} 
+  \end{align*}
+
+  \noindent First we define the Hamiltonian, H(x,u,$\lambda$) as 
+  \begin{multline*}
+    H(x_3, y_3, \lambda) = (x_3-x_1)^2 + (y_3-y_1)^2 + (x_3-x_2)^2 + (y_3-y_2)^2 + \cdots \\ \cdots + \lambda ((x_3-x_1)^2 + (y_3-y_1)^2 - [(x_3-x_2)^2 - (y_3-y_2)^2]) \tag{3.5}
+  \end{multline*}
+  To find the critical point using the Hamiltonian, we must meet the following three conditions:
+  \begin{align*}
+    \frac{\partial H}{\partial \lambda} &= f(x_3, y_3) = 0 \\
+    (x_3 - x_1)^2 + (y_3-y_1)^2 &- (x_3 - x_2)^2 - (y_3-y_2)^2 = 0  \\
+    2x_3(x_2-x_1) + 2y_3(y_2-y_1) &= x_2^2 + y_2^2 - x_1^2 - y_1^2 \tag{3.6} \\
+    \frac{\partial H}{\partial x_3} &= L_{x_3} + \lambda f_{x_3}= 0 \tag{3.7} \\
+    \frac{\partial H}{\partial y_3} &= L_{y_3} + \lambda f_{y_3} = 0 \tag{3.8} 
+  \end{align*}
+  We have $f(x_3,y_3)$ so we need to find $\frac{\partial H}{\partial x_3}$ and $\frac{\partial H}{\partial y_3}$
+  \begin{align*}
+    \frac{\partial H}{\partial x_3} &= 2(x_3-x_1) + 2(x_3-x_2) + 2\lambda(x_3-x_1) - 2\lambda(x_3-x_2) = 0 \\
+    \frac{\partial H}{\partial x_3} &= 4x_3 - 2x_1 -2x_2 - 2\lambda(x_1-x_2) = 0 \\
+    x_3 &= \frac{1}{2}[\lambda(x_1-x_2) + x_1 + x_2] \tag{3.9} \\
+    \frac{\partial H}{\partial y_3} &= 2(y_3-y_1) + 2(y_3-y_2) + 2\lambda(y_3-y_1) - 2\lambda(y_3-y_2) = 0 \\
+    \frac{\partial H}{\partial y_3} &= 4y_3 - 2y_1 -2y_2 - 2\lambda(y_1-y_2) = 0 \\
+    y_3 &= \frac{1}{2}[\lambda(y_1-y_2) + y_1 + y_2] \tag{3.10} 
+  \end{align*}
+
+  We have 3 independent equations and 3 unknowns which means this problem is solvable:
+  \begin{align*}
+    &2x_3(x_2-x_1) + 2y_3(y_2-y_1) = x_2^2 + y_2^2 - x_1^2 - y_1^2 \\
+    &x_3 = \frac{1}{2}[\lambda(x_1-x_2) + x_1 + x_2] \\
+    &y_3 = \frac{1}{2}[\lambda(y_1-y_2) + y_1 + y_2]
+  \end{align*}
+
+  Solving (3.9) and (3.10) for $\lambda$ and setting them equal to one another gives us
+  \begin{align*}
+    \frac{2x_3-x_1-x_2}{x_1-x_2} &= \frac{2y_3-y_1-y_2}{y_1-y_2} \tag{3.11} \\
+    2x_3-x_1-x_2 &= \frac{x_1-x_2}{y_1-y_2}(2y_3-y_1-y_2) \\
+    x_3 &= \frac{(x_1-x_2)(2y_3-y_2-y_1)}{2(y_1-y_2)} + x_1 + x_2 \tag{3.12}
+  \end{align*}
+
+  Now that we have $x_3$ in terms of $y_3$, we plug (3.12) into (3.6)
+  \begin{align*}
+    [x_1+x_2 + \frac{(x_1-x_2)(2y_3-y_1-y_2)}{(y_1-y_2)}](x_2-x_1) &= 2y_3(y_1-y_2) + x_2^2 + y_2^2 - x_1^2 - y_1^2 \\
+    \cancelto{}-x_1^2 + \cancelto{}x_2^2 - \frac{(x_1-x_2)(2y_3-y_1-y_2)}{(y_1-y_2)} &= 2y_3(y_1-y_2) + \cancelto{}x_2^2 + y_2^2 - \cancelto{}x_1^2 - y_1^2 \\
+    -(x_1-x_2)^2(2y_3-y_1-y_2) &= 2y_3(y_1-y_2)^2 + (y_2^2-y_1^2)(y_1-y_2) \\
+    2y_3[(x_1-x_2)^2 + (y_1-y_2)^2] &= (x_1-x_2)^2(y_1+y_2) + (y_2^2-y_1^2)(y_1-y_2) \\
+  \end{align*}
+  \begin{empheq}[box=\fbox]{align}
+    \nonumber y_3 = \frac{(x_1-x_2)^2(y_1+y_2) + (y_2^2-y_1^2)(y_1-y_2)}{2(x_1-x_2)^2 + (y_1-y_2)^2}
+  \end{empheq}
+
+  Plugging $y_3$ into (3.12) gives us
+  \begin{empheq}[box=\fbox]{align}
+    \nonumber x_3 &= \frac{(x_1-x_2)([\frac{(x_1-x_2)^2(y_1+y_2) + (y_2^2-y_1^2)(y_2-y_1)}{(x_1-x_2)^2 + (y_1-y_2)^2}-y_1-y_2]-y_2-y_1)}{2(y_1-y_2)} + x_1 + x_2 
+  \end{empheq}
+
+  \newpage
+
+  \section{1.2-5 Rectangles with maximum area, minimum perimeter}
+
+  \begin{enumerate}[label=(\alph*)]
+    \item  Find the rectangle of maximum area with perimeter p. That is, maximize
+           \begin{align*}
+             L(x,y) = xy \tag{4.1}
+           \end{align*}
+           subject to 
+           \begin{align*}
+             f(x,y) = 2x + 2y - p = 0 \tag{4.2}
+           \end{align*}
+    \item Find the rectangle of minimum perimeter with area a2. That is, minimize
+           \begin{align*}
+             L(x,y) = 2x + 2y \tag{4.3}
+           \end{align*}
+           subject to 
+           \begin{align*}
+             f(x,y) = xy - a^2 = 0 \tag{4.4}
+           \end{align*}
+    \item In each case, sketch the contours of L(x, y) and the constraint. Optimization
+          problems related like these two are said to be dual.
+  \end{enumerate}
+
+
+  \noindent \textit{Solution} \newline \newline
+  
+  \noindent (a) The Hamiltonian for this problem is 
+  \begin{align*}
+    H(x,y,\lambda) &= L(x,y) + \lambda f(x,y) \\
+    H(x,y,\lambda) &= xy + \lambda(2x+2y-p) \tag{4.5}
+  \end{align*}
+  To find the critical point using the Hamiltonian, we must meet the following three conditions:
+  \begin{align*}
+    \frac{\partial H}{\partial \lambda} &= f(x,y) = 0 \tag{4.6} \\
+    \frac{\partial H}{\partial x} &= L_x + \lambda f_x= 0 \tag{4.7} \\
+    \frac{\partial H}{\partial y} &= L_y + \lambda f_y = 0 \tag{4.8} 
+  \end{align*}
+  \begin{align*}
+    \frac{\partial H}{\partial \lambda} &= 2x + 2y -p = 0 \tag{4.9} \\
+    \frac{\partial H}{\partial x} &=  y + 2\lambda = 0 \tag{4.10} \\
+    \frac{\partial H}{\partial y} &=  x + 2\lambda = 0 \tag{4.11} 
+  \end{align*}
+  Solving equations (4.9), (4.10), (4.11) yields $x^*=y^*=\frac{p}{4}$ and $\lambda = -\frac{p}{8}$ 
+  Plugging x,y into L(x,y), we get
+  \begin{empheq}[box=\fbox]{align}
+    \nonumber L^*(x,y) = xy|_{(x^*,y^*)} = \frac{1}{16}p^2
+  \end{empheq}
+
+  \newpage
+
+  (b) The Hamiltonian for this problem is 
+  \begin{align*}
+    H(x,y,\lambda) &= L(x,y) + \lambda f(x,y) \\
+    H(x,y,\lambda) &= 2x + 2y + \lambda(xy-a^2) \tag{4.12} 
+  \end{align*}
+  To find the critical point using the Hamiltonian, we must meet the following three conditions:
+  \begin{align*}
+    \frac{\partial H}{\partial \lambda} &= f(x,y) = 0 \tag{4.13} \\
+    \frac{\partial H}{\partial x} &= L_x + \lambda f_x= 0 \tag{4.14} \\
+    \frac{\partial H}{\partial y} &= L_y + \lambda f_y = 0 \tag{4.15} 
+  \end{align*}
+  \begin{align*}
+    \frac{\partial H}{\partial \lambda} &= xy - a^2 = 0 \tag{4.16} \\
+    \frac{\partial H}{\partial x} &=  2 + \lambda y = 0 \tag{4.17} \\
+    \frac{\partial H}{\partial y} &=  2 + \lambda x = 0 \tag{4.18} 
+  \end{align*}
+  Solving equations (4.16), (4.17), (4.18) yields $x^*=y^*=a$ and $\lambda = -\frac{2}{a}$ 
+  Plugging x,y into L(x,y), we get
+  \begin{empheq}[box=\fbox]{align}
+    \nonumber L^*(x,y) = xy|_{(x^*,y^*)} = 4a
+  \end{empheq}
+
+  (c) Contour map for part (a) \newline
+  \includegraphics[width=8cm]{contour_map_1-2-5a}
+
+  Contour map for part (b) \newline
+  \includegraphics[width=8cm]{contour_map_1-2-5b}
+  
+
+  \newpage
+
+  \section{1.2-6 Linear Quadratic Case}
+  Minimize
+  \begin{align*}
+    L(x,u)  = \frac{1}{2}x^T\begin{bmatrix}
+      1 & 0 \\
+      0 & 2
+    \end{bmatrix}x + \frac{1}{2}u^T\begin{bmatrix}
+      2 & 1 \\
+      1 & 1
+    \end{bmatrix}u \tag{5.1} 
+  \end{align*}
+  if 
+  \begin{align}
+    x = \begin{bmatrix}
+      1 \\
+      3
+    \end{bmatrix} + \begin{bmatrix}
+      2 & 2 \\
+      1 & 0
+    \end{bmatrix}u \tag{5.2} 
+  \end{align}
+
+  \noindent \textit{Solution} \newline \newline
+  
+  \noindent The constraint above can be written as
+  \begin{align*}
+    f(x,u) = Ix - 
+  \begin{bmatrix}
+    2 & 2 \\
+    1 & 0
+  \end{bmatrix}u - 
+  \begin{bmatrix}
+    1 \\
+    3
+  \end{bmatrix} = 0 \tag{5.3}
+  \end{align*}
+
+  \noindent The Hamiltonian for this problem is 
+  \begin{align*}
+    H(x,u,\lambda) &= L(x,u) + \lambda f(x,u) \\
+    H(x,u,\lambda) &= \frac{1}{2}x^T
+    \begin{bmatrix}
+      1 & 0 \\
+      0 & 2
+    \end{bmatrix}x + \frac{1}{2}u^T
+    \begin{bmatrix}
+      2 & 1 \\
+      1 & 1
+    \end{bmatrix}u + \lambda ^T(Ix - 
+    \begin{bmatrix}
+      2 & 2 \\
+      1 & 0
+    \end{bmatrix}u - 
+    \begin{bmatrix}
+      1 \\
+      3
+    \end{bmatrix}) \tag{5.4}
+  \end{align*}
+  To find the critical point using the Hamiltonian, we must meet the following three conditions:
+  \begin{align*}
+    \frac{\partial H}{\partial \lambda} &= 0 \tag{5.5} \\
+    \frac{\partial H}{\partial x} &= L_x + \lambda f_x= 0 \tag{5.6} \\
+    \frac{\partial H}{\partial u} &= L_u + \lambda f_u = 0 \tag{5.7} 
+  \end{align*}
+  \begin{align*}
+    \frac{\partial H}{\partial \lambda} &= Ix - 
+    \begin{bmatrix}
+      2 & 2 \\
+      1 & 0
+    \end{bmatrix}u - 
+    \begin{bmatrix}
+      1 \\
+      3
+    \end{bmatrix} = 0 \tag{5.8} \\
+    \frac{\partial H}{\partial x} &= 
+    \begin{bmatrix}
+      1 & 0 \\
+      0 & 2
+    \end{bmatrix}x + \lambda = 0 \tag{5.9} \\
+    \frac{\partial H}{\partial u} &= 
+    \begin{bmatrix}
+      2 & 1 \\
+      1 & 1
+    \end{bmatrix}u - 
+    \begin{bmatrix}
+      2 & 2 \\
+      1 & 0
+    \end{bmatrix} \lambda  = 0 \tag{5.10} 
+  \end{align*}
+  Solving equations (5.8), (5.9), (5.10) yield the following
+  \begin{align*}
+    &\lambda = - 
+    \begin{bmatrix}
+      1 & 0 \\
+      0 & 2
+    \end{bmatrix}x \\
+    &\begin{bmatrix}
+      2 & 1 \\
+      1 & 1
+    \end{bmatrix}u - 
+    \begin{bmatrix}
+      2 & 2 \\
+      1 & 0
+    \end{bmatrix} \lambda  = 0 \\
+    &u = 
+    \begin{bmatrix}
+      2 & 1 \\
+      1 & 1
+    \end{bmatrix}^{-1} 
+    \begin{bmatrix}
+      2 & 2 \\
+      1 & 0
+    \end{bmatrix} \lambda = 
+    \begin{bmatrix}
+      -1 & -4 \\
+      0  &  4 
+    \end{bmatrix} x \\
+    &x = 
+    \begin{bmatrix}
+      1 \\
+      3
+    \end{bmatrix} + 
+    \begin{bmatrix}
+      2 & 2 \\
+      1 & 0
+    \end{bmatrix}u \\
+    &x = 
+    \begin{bmatrix}
+      1 \\
+      3
+    \end{bmatrix} + 
+    \begin{bmatrix}
+      2 & 2 \\
+      1 & 0
+    \end{bmatrix} 
+    \begin{bmatrix}
+      -1 & -4 \\
+      0 &  4
+    \end{bmatrix}x = 
+    \begin{bmatrix}
+      1 \\
+      3
+    \end{bmatrix} - 
+    \begin{bmatrix}
+      2 & 0 \\
+      1 & 4   
+    \end{bmatrix} x  \\
+    &(I + 
+    \begin{bmatrix}
+      2 & 0 \\
+      1 & 4   
+    \end{bmatrix})x = 
+    \begin{bmatrix}
+      1 \\
+      3
+    \end{bmatrix} \\
+    &x = 
+    \begin{bmatrix}
+      3 & 0 \\
+      1 & 5
+    \end{bmatrix}^{-1}
+    \begin{bmatrix}
+      1 \\
+      3   
+    \end{bmatrix} = 
+    \begin{bmatrix}
+      0.333 \\
+      0.533 
+    \end{bmatrix} \tag{5.11} \\
+    &u = 
+    \begin{bmatrix}
+       -1 & -4 \\
+        0 &  4
+    \end{bmatrix}x = 
+    \begin{bmatrix}
+      -2.47 \\
+      2.13 
+    \end{bmatrix} \tag{5.12} 
+  \end{align*}
+  
+  \noindent Now that we have solved for $x^*$ and $u^*$, we can plug (5.11) and (5.12) into (5.1) to get our minimum point
+
+  \begin{align*}
+    L(x,u)  &= \frac{1}{2}x^T\begin{bmatrix}
+      1 & 0 \\
+      0 & 2
+    \end{bmatrix}x + \frac{1}{2}u^T\begin{bmatrix}
+      2 & 1 \\
+      1 & 1
+    \end{bmatrix}u \\
+    L^*(x,u) & = \frac{1}{2}
+    \begin{bmatrix}
+      0.33 & 0.53
+    \end{bmatrix}
+    \begin{bmatrix}
+      1 & 0 \\
+      0 & 2
+    \end{bmatrix}
+    \begin{bmatrix}
+      0.33 \\
+      0.53
+    \end{bmatrix} + \frac{1}{2}
+    \begin{bmatrix}
+      -2.47 & 2.13
+    \end{bmatrix}
+    \begin{bmatrix}
+      2 & 1 \\
+      1 & 1
+    \end{bmatrix}
+    \begin{bmatrix}
+      -2.47 \\
+      2.13
+    \end{bmatrix}
+  \end{align*}
+  \begin{empheq}[box=\fbox]{align}
+    \nonumber L^*(x,u) &= 3.44
+  \end{empheq}
+
+  
+
+   
+  
+\end{document}
+
