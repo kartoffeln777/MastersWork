@@ -1,0 +1,437 @@
+% This is a Latex tutorial document
+
+\documentclass{article}
+% \usepackage[letterpaper, landscape, margin=2in]{geometry}
+\usepackage[margin=1.0in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{empheq}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{pgfplots}
+\usepackage{cancel}
+\usepackage{enumitem}
+\graphicspath{ {/Users/ericeldridge/Documents/GradSchool/Fall2018/OptimalControlTheory/HW3/} }
+\makeatletter
+\def\@seccntformat#1{%
+  \expandafter\ifx\csname c@#1\endcsname\c@section\else
+  \csname the#1\endcsname\quad
+  \fi}
+\makeatother
+\setlength\parindent{0pt}
+\title{MECE 6388: HW \#4}
+\date{\today}
+\author{Eric Eldridge (1561585)}
+\begin{document}
+
+ \maketitle
+
+  \section{3.3-3 Optimal Control of Newton's System}
+
+  Let 
+  \begin{align*}
+	  \dot{x}_1 &= x_2 \\
+	  \dot{x}_2 &= u
+  \end{align*}
+  have performance index 
+  \begin{align*}
+	  J=\frac{1}{2}x^T(T)x(T)+\frac{1}{2}\int_0^T(x^Tx+ru^2)dt,
+  \end{align*}
+  where x = 
+  $\begin{bmatrix}
+	  x_1 & x_2 
+  \end{bmatrix}^T$.
+  \begin{enumerate}[label=(\alph*)]
+    \item Find the Riccati equation. Write it as three scalar differential equations. Find the feedback gain in terms of the scalar components of S(t).
+    \item Write subroutines to find and simulate the optimal control using MATLAB.
+    \item Find analytic expressions for the steady-state Riccati solution and gain.
+  \end{enumerate}
+  
+  \ 
+  \newline
+  \textit{Solution} \newline \newline
+  
+  a) We can rewrite the state equation as 
+  \begin{align*}
+	  \dot{x} &= 
+	  \begin{bmatrix}
+		  0 & 1 \\
+		  0 & 0
+	  \end{bmatrix}x + 
+	  \begin{bmatrix}
+		 0 \\
+		 1 
+	  \end{bmatrix}u
+  \end{align*}
+
+  We can see from the state equation and the performance index that A=
+  $\begin{bmatrix}
+	  0 & 1 \\
+	  0 & 0
+  \end{bmatrix}$, B=
+  $\begin{bmatrix}
+         0 \\
+         1 
+  \end{bmatrix}$, Q=
+  $\begin{bmatrix}
+	  1 & 0 \\
+          0 & 1
+  \end{bmatrix}$ \newline
+
+  The Ricatti equation for the given system and parameters is described as
+  \begin{align*}
+	  -\dot{S}=A^TS+SA-SBR^{-1}B^TS+Q
+  \end{align*}
+  We can define S as 
+  $\begin{bmatrix}
+	  s_1 & s_2 \\
+          s_2 & s_3
+  \end{bmatrix}$.
+
+  Plugging these values into the Ricatti equation gives
+  \begin{align*}
+	  -\begin{bmatrix}
+		  \dot{s_1} & \dot{s_2} \\
+		  \dot{s_2} & \dot{s_3}
+	  \end{bmatrix} &=
+	  \begin{bmatrix}
+		  0 & 0 \\
+		  1 & 0
+	  \end{bmatrix} *
+	  \begin{bmatrix}
+		  s_1 & s_2 \\
+		  s_2 & s_3
+	  \end{bmatrix} + 
+	  \begin{bmatrix}
+		  s_1 & s_2 \\
+		  s_2 & s_3
+	  \end{bmatrix} *
+	  \begin{bmatrix}
+		  0 & 1 \\
+		  0 & 0
+	  \end{bmatrix} -
+	  \begin{bmatrix}
+		  s_1 & s_2 \\
+		  s_2 & s_3
+	  \end{bmatrix}
+	  \begin{bmatrix}
+		  0 \\
+		  1
+	  \end{bmatrix} * \frac{1}{r} * 
+	  \begin{bmatrix}
+		  0 & 1
+	  \end{bmatrix}
+	  \begin{bmatrix}
+		  s_1 & s_2 \\
+		  s_2 & s_3
+	  \end{bmatrix} +
+	  \begin{bmatrix}
+		  1 & 0 \\
+		  0 & 1
+	  \end{bmatrix} \\
+          &=\begin{bmatrix}
+		  0 & 0 \\
+		  s_1 & s_2
+	  \end{bmatrix} + 
+          \begin{bmatrix}
+		  0 & s_1 \\
+		  0 & s_2
+	  \end{bmatrix} - \frac{1}{r}
+	  \begin{bmatrix}
+		  s_2 \\
+		  s_3
+	  \end{bmatrix}
+	  \begin{bmatrix}
+		  s_2 & s_3
+	  \end{bmatrix} +
+	  \begin{bmatrix}
+		  1 & 0 \\
+		  0 & 1
+	  \end{bmatrix} \\
+	  &=\begin{bmatrix}
+		  1 & s_1 \\
+		  s_1 & 2s_2+1
+	  \end{bmatrix} - \frac{1}{r}
+	  \begin{bmatrix}
+		  s_2^2 & s_2s_3 \\
+		  s_2s_3 & s_3^2
+	  \end{bmatrix} \\
+	  -\begin{bmatrix}
+		  \dot{s_1} & \dot{s_2} \\
+		  \dot{s_2} & \dot{s_3}
+	  \end{bmatrix} &=
+	  \begin{bmatrix}
+		  1-\frac{1}{r}s_2^2 & s_1-\frac{1}{r}s_2s_3 \\
+		  s_1-\frac{1}{r}s_2s_3 & 2s_2-\frac{1}{r}s_3^2+1
+	  \end{bmatrix}
+  \end{align*}
+
+  \begin{empheq}[box=\fbox]{align}
+	  \nonumber \dot{s}_1&=\frac{1}{r}s_2^2-1\\
+	  \nonumber \dot{s}_2&=\frac{1}{r}s_2s_3-s_1\\
+	  \nonumber \dot{s}_3&=\frac{1}{r}s_3^2-2s_2-1
+  \end{empheq}
+
+  The feedback gain can be written as 
+  \begin{align*}
+	  K&=R^{-1}B^TS \\
+	  K&=\frac{1}{r}
+	  \begin{bmatrix}
+		  0 & 1
+	  \end{bmatrix}
+	  \begin{bmatrix}
+		  s_1 & s_2 \\
+		  s_2 & s_3
+	  \end{bmatrix} 
+  \end{align*}
+
+  \begin{empheq}[box=\fbox]{align}
+	  \nonumber K&=\frac{1}{r}
+	  \begin{bmatrix}
+		  s_2 & s_3
+	  \end{bmatrix}
+  \end{empheq}
+
+  c) The steady-state Ricatti equation is given by the [], but with $\dot{S}=0$. Therefore
+  \begin{align*}
+	  0=A^TS+SA-SBR^{-1}B^TS+Q
+  \end{align*}
+  Plugging in for A, S, B, r, Q
+  \begin{align*}
+	  0_{2x2}=
+	  \begin{bmatrix}
+		  1-\frac{1}{r}s_2^2 & s_1-\frac{1}{r}s_2s_3 \\
+		  s_1-\frac{1}{r}s_2s_3 & 2s_2-\frac{1}{r}s_3^2+1
+	  \end{bmatrix}
+  \end{align*}
+  This can be written as a series of 3 scalar differential equations with 3 unknown variables ($s_1, s_2, s_3$)
+  \begin{align*}
+	  0&=\frac{1}{r}s_2^2-1 \\
+	  0&=\frac{1}{r}s_2s_3-s_1 \\
+	  0&=\frac{1}{r}s_3^2-2s_2-1
+  \end{align*}
+  Eqn () can be solved for $s_2$
+  \begin{align*}
+	  0&=\frac{1}{r}s_2^2-1\\
+	  s_2&=\pm\sqrt{r} \\
+	  s_2&=\sqrt{r} 
+  \end{align*}
+  We use only the positive value of $s_2$ because S should be positive definite. \newline
+  Eqn () can be solved for $s_3$.
+  \begin{align*}
+	  0&=\frac{1}{r}s_3^2-2s_2-1 \\
+	  \frac{1}{r}s_3^2&=2s_2+1 \\
+	  s_3&=\sqrt{r(2\sqrt{r}+1)} \\
+	  s_3&=\sqrt{2r^{\frac{3}{2}}+r}
+  \end{align*}
+  Finally, we can use Eqn () to solve for $s_1$.
+  \begin{align*}
+	  0&=\frac{1}{r}s_2s_3-s_1 \\
+	  s_1&=\frac{1}{r}s_2s_3 \\
+	  s_1&=\frac{1}{r}\sqrt{r}\sqrt{2r^{\frac{3}{2}}+r} \\
+	  s_1&=\sqrt{2r^{\frac{1}{2}}+1} 
+  \end{align*}
+  Gathering $s_1$, $s_2$, and $s_3$ terms
+  \begin{empheq}[box=\fbox]{align}
+	  \nonumber s_1&=\sqrt{2r^{\frac{1}{2}}+1} \\
+	  \nonumber s_2&=\sqrt{r} \\
+	  \nonumber s_3&=\sqrt{2r^{\frac{3}{2}}+r}
+  \end{empheq}
+  \newpage
+
+  \section{3.3-4 Uncontrolled Newton's System}
+
+  Consider the system of Problem 3.3-3. Solve the Lyapunov equation (3.3-9) to find the cost kernel S(t) if u = 0. Sketch the scalar components of S (t). \newline
+
+  \textit{Solution}
+  
+  From problem 3.3-3 and the constraint u=0, we have A=
+  $\begin{bmatrix}
+	  0 & 1 \\
+	  0 & 0
+  \end{bmatrix}$, B=
+  $\begin{bmatrix}
+         0 \\
+         0 
+  \end{bmatrix}$, Q=
+  $\begin{bmatrix}
+	  1 & 0 \\
+          0 & 1
+  \end{bmatrix}, S(T)=
+  \begin{bmatrix}
+	  1 & 0 \\
+	  0 & 1
+  \end{bmatrix}, r=0, $ \newline
+  Again, we can define S as the symmetric matrix
+  $\begin{bmatrix}
+	  s_1 & s_2 \\
+          s_2 & s_3
+  \end{bmatrix}$.
+
+  Plugging these values into the steady-state Ricatti equation gives
+  \begin{align*}
+	  -\begin{bmatrix}
+		  \dot{s}_1 & \dot{s}_2 \\
+		  \dot{s}_2 & \dot{s}_3 
+	  \end{bmatrix} &=
+	  \begin{bmatrix}
+		  0 & 0 \\
+		  1 & 0
+	  \end{bmatrix} *
+	  \begin{bmatrix}
+		  s_1 & s_2 \\
+		  s_2 & s_3
+	  \end{bmatrix} + 
+	  \begin{bmatrix}
+		  s_1 & s_2 \\
+		  s_2 & s_3
+	  \end{bmatrix} *
+	  \begin{bmatrix}
+		  0 & 1 \\
+		  0 & 0
+	  \end{bmatrix} +
+	  \begin{bmatrix}
+		  1 & 0 \\
+		  0 & 1
+	  \end{bmatrix} \\
+          &=\begin{bmatrix}
+		  0 & 0 \\
+		  s_1 & s_2
+	  \end{bmatrix} + 
+          \begin{bmatrix}
+		  0 & s_1 \\
+		  0 & s_2
+	  \end{bmatrix} +
+	  \begin{bmatrix}
+		  1 & 0 \\
+		  0 & 1
+	  \end{bmatrix} \\
+	  &=\begin{bmatrix}
+		  1 & s_1 \\
+		  s_1 & 2s_2+1
+	  \end{bmatrix}
+  \end{align*}
+  This can be written as a series of 3 scalar equation
+  \begin{align*}
+	  \dot{s}_1&=-1 \\
+	  \dot{s}_2&=-s_1 \\
+	  \dot{s}_3&=-2s_2-1
+  \end{align*}
+  Equation () can be solved for $s_1$
+  \begin{align*}
+	  \dot{s}_1&=-1 \\
+	  s_1(t)&=\int(-1dt) \\
+	  s_1(t)&=-t+C_1 \\
+	  s_1(T)&=-T+C_1=1 \\
+	  \implies C_1&=1+T \\
+	  s_1(t)&=-t+1+T
+  \end{align*}
+  Equation () can be solved for $s_2$
+  \begin{align*}
+	  \dot{s}_2&=-s_1 \\
+	  \dot{s}_2&=t-(1+T) \\
+	  s_2(t)&=\int(t-(1+T))dt \\
+	  s_2(t)&=\frac{1}{2}t^2-(1+T)t+C_2 \\
+	  s_2(T)&=\frac{1}{2}T^2-(1+T)T+C_2=0 \\
+	  \implies C_2&=\frac{1}{2}T^2+T \\
+	  s_2(t)&=\frac{1}{2}t^2-(1+T)t+\frac{1}{2}T^2+T
+  \end{align*}
+  Equation () can be solved for $s_3$
+  \begin{align*}
+	  \dot{s}_3&=-2s_2-1 \\
+	  \dot{s}_3&=-t^2+2(1+T)t-T^2-2T-1 \\
+	  s_3(t)&=-\frac{1}{3}t^3+(1+T)t^2-(1+2T+T^2)t+C_3 \\
+	  s_3(T)&=-\frac{1}{3}T^3+(1+T)T^2-(1+2T+T^2)T+C_3=1 \\
+	  \implies C_3&=\frac{1}{3}T^3+T^2+T-1 \\
+	  s_3(t)&=-\frac{1}{3}t^3+(1+T)t^2-(1+2T+T^2)t+\frac{1}{3}T^3+T^2+T-1 
+  \end{align*}
+  Gathering $s_1$, $s_2$, $s_3$ terms
+  \begin{empheq}[box=\fbox]{align}
+	  \nonumber s_1(t)&=-t+1+T \\
+	  \nonumber s_2(t)&=\frac{1}{2}t^2-(1+T)t+\frac{1}{2}T^2+T \\
+	  \nonumber s_3(t)&=-\frac{1}{3}t^3+(1+T)t^2-(1+2T+T^2)t+\frac{1}{3}T^3+T^2+T-1 
+  \end{empheq}
+  \newpage
+
+  \section{3.3-5 Uncontrolled Harmonic Oscillator}
+
+  Repeat problem 3.3-4 for the system in Example 3.3-5. Let S(T) = I, Q = I , $w_n^2 = 1$, $\delta = 0.5$. \newline
+
+  \textit{Solution} \newline \newline
+
+  From example 3.3-5 and the constraint u=0, we have \newline
+  A=
+  $\begin{bmatrix}
+	  0 & 1 \\
+	  -\omega_n^2 & -2\delta\omega_n 
+  \end{bmatrix}$, B=
+  $\begin{bmatrix}
+         0 \\
+         b 
+  \end{bmatrix}$, Q=
+  $\begin{bmatrix}
+	  1 & 0 \\
+          0 & 1
+  \end{bmatrix}$, S(T)=
+  $\begin{bmatrix}
+	  1 & 0 \\
+	  0 & 1
+  \end{bmatrix}$, r=0 (no input),  \newline
+  Again, we can define S as the symmetric matrix
+  $\begin{bmatrix}
+	  s_1 & s_2 \\
+          s_2 & s_3
+  \end{bmatrix}$.
+
+  Plugging these values into the steady-state Ricatti equation gives
+  \begin{align*}
+	  -\begin{bmatrix}
+		  \dot{s}_1 & \dot{s}_2 \\
+		  \dot{s}_2 & \dot{s}_3 
+	  \end{bmatrix} &=
+	  \begin{bmatrix}
+		  0 & -1 \\
+		  1 & 1
+	  \end{bmatrix} *
+	  \begin{bmatrix}
+		  s_1 & s_2 \\
+		  s_2 & s_3
+	  \end{bmatrix} + 
+	  \begin{bmatrix}
+		  s_1 & s_2 \\
+		  s_2 & s_3
+	  \end{bmatrix} *
+	  \begin{bmatrix}
+		  0 & 1 \\
+		  -1 & 1
+	  \end{bmatrix} +
+	  \begin{bmatrix}
+		  1 & 0 \\
+		  0 & 1
+	  \end{bmatrix} \\
+          &=\begin{bmatrix}
+		  -s_2 & -s_3 \\
+		  s_1-s_2 & s_2-s_3
+	  \end{bmatrix} + 
+          \begin{bmatrix}
+		  -s_2 & s_1-s_2 \\
+		  -s_3 & s_2-s_3
+	  \end{bmatrix} +
+	  \begin{bmatrix}
+		  1 & 0 \\
+		  0 & 1
+	  \end{bmatrix} \\
+	  &=\begin{bmatrix}
+		  1-s_2 & s_1-s_2-s_3 \\
+		  s_1-s_2-s_3 & 2s_2-2s_3+1
+	  \end{bmatrix}
+  \end{align*}
+  This can be written as a series of 3 scalar equations
+  \begin{empheq}[box=\fbox]{align}
+	  \nonumber \dot{s}_1&=s_2-1 \\
+	  \nonumber \dot{s}_2&=s_2+s_3-s_1 \\
+	  \nonumber \dot{s}_3&=2s_3-2s_2-1
+  \end{empheq}
+
+\end{document}
+
